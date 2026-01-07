@@ -3,62 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome to GenieLink</title>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <title>GenieLink Map</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
             margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
             background-color: #f0f0f0;
         }
-        h1 {
-            color: #333;
-        }
         #map {
-            height: 500px;
-            width: 80%;
-            max-width: 800px;
-            margin-top: 20px;
+            width: 80vw; /* Increased from a smaller width */
+            height: 80vh; /* Increased from a smaller height */
             border: 2px solid #333;
-            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
         }
     </style>
 </head>
 <body>
-    <h1>Welcome to GenieLink</h1>
-    <div id="map"></div>
-
-    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-    <script>
-        function initMap() {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(function(position) {
-                    const lat = position.coords.latitude;
-                    const lon = position.coords.longitude;
-
-                    const map = L.map('map').setView([lat, lon], 13);
-
-                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                        maxZoom: 19,
-                        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                    }).addTo(map);
-
-                    L.marker([lat, lon]).addTo(map)
-                        .bindPopup('You are here!').openPopup();
-                }, function() {
-                    alert('Geolocation is not supported by this browser or permission denied.');
-                });
-            } else {
-                alert('Geolocation is not supported by this browser.');
-            }
-        }
-
-        document.addEventListener('DOMContentLoaded', initMap);
-    </script>
+    <div id="map">
+        <!-- Map content goes here -->
+    </div>
 </body>
 </html>
