@@ -3,29 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GenieLink Map</title>
+    <title>Map Page</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #f0f0f0;
-        }
         #map {
-            width: 80vw; /* Increased from a smaller width */
-            height: 80vh; /* Increased from a smaller height */
-            border: 2px solid #333;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            height: 500px; /* Ensure the map has a height */
+            width: 100%; /* Make the map take full width */
         }
     </style>
+    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY"></script>
+    <script>
+        function initMap() {
+            var mapOptions = {
+                center: { lat: -34.397, lng: 150.644 },
+                zoom: 8
+            };
+            var map = new google.maps.Map(document.getElementById('map'), mapOptions);
+        }
+    </script>
 </head>
-<body>
-    <div id="map">
-        <!-- Map content goes here -->
-    </div>
+<body onload="initMap()">
+    <h1>Our Location</h1>
+    <div id="map"></div>
 </body>
 </html>
