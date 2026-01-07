@@ -1,0 +1,4 @@
+Proposed solution for: Basic test
+Requested by: Bekbolatov
+
+(AI Logic would go here)
