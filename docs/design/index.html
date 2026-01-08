@@ -1,0 +1,1280 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="light dark" />
+  <title>/design — a tiny interactive design field guide</title>
+  <style>
+    :root{
+      --bg: #0b1020;
+      --panel: rgba(255,255,255,.06);
+      --panel2: rgba(255,255,255,.09);
+      --text: rgba(255,255,255,.92);
+      --muted: rgba(255,255,255,.72);
+      --faint: rgba(255,255,255,.55);
+      --border: rgba(255,255,255,.14);
+      --shadow: 0 18px 60px rgba(0,0,0,.35);
+      --accent: #7c5cff;
+      --accent2: #2de2e6;
+      --good: #2dd4bf;
+      --warn: #fbbf24;
+      --bad: #fb7185;
+      --radius: 16px;
+      --radius2: 22px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      --serif: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+    }
+
+    @media (prefers-color-scheme: light){
+      :root{
+        --bg: #f7f7fb;
+        --panel: rgba(0,0,0,.04);
+        --panel2: rgba(0,0,0,.06);
+        --text: rgba(0,0,0,.88);
+        --muted: rgba(0,0,0,.68);
+        --faint: rgba(0,0,0,.52);
+        --border: rgba(0,0,0,.12);
+        --shadow: 0 18px 60px rgba(0,0,0,.12);
+        --accent: #5b4bff;
+        --accent2: #0ea5e9;
+      }
+    }
+
+    *{ box-sizing: border-box; }
+    html, body{ height: 100%; }
+    body{
+      margin: 0;
+      font-family: var(--sans);
+      color: var(--text);
+      background:
+        radial-gradient(1200px 700px at 15% 10%, rgba(124,92,255,.35), transparent 55%),
+        radial-gradient(900px 600px at 85% 20%, rgba(45,226,230,.25), transparent 55%),
+        radial-gradient(900px 700px at 50% 90%, rgba(251,113,133,.18), transparent 55%),
+        var(--bg);
+      line-height: 1.45;
+    }
+
+    a{ color: inherit; text-decoration: none; }
+    a:hover{ text-decoration: underline; }
+
+    .skip{
+      position: absolute;
+      left: -999px;
+      top: 8px;
+      padding: 10px 12px;
+      background: var(--panel2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      z-index: 999;
+    }
+    .skip:focus{ left: 8px; }
+
+    header{
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(10px);
+      background: linear-gradient(to bottom, rgba(0,0,0,.35), rgba(0,0,0,0));
+      border-bottom: 1px solid rgba(255,255,255,.06);
+    }
+    @media (prefers-color-scheme: light){
+      header{ background: linear-gradient(to bottom, rgba(255,255,255,.75), rgba(255,255,255,0)); border-bottom: 1px solid rgba(0,0,0,.06); }
+    }
+
+    .wrap{ max-width: 1100px; margin: 0 auto; padding: 18px 18px; }
+
+    .topbar{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .brand{
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      letter-spacing: .2px;
+    }
+
+    .logo{
+      width: 34px;
+      height: 34px;
+      border-radius: 12px;
+      background:
+        radial-gradient(circle at 30% 30%, rgba(255,255,255,.35), transparent 55%),
+        linear-gradient(135deg, var(--accent), var(--accent2));
+      box-shadow: 0 10px 30px rgba(0,0,0,.25);
+      border: 1px solid rgba(255,255,255,.18);
+    }
+
+    .nav{
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .pill{
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.04);
+      color: var(--muted);
+      font-size: 13px;
+      white-space: nowrap;
+    }
+    .pill:hover{ background: rgba(255,255,255,.07); color: var(--text); text-decoration: none; }
+
+    main{ padding: 18px 0 60px; }
+
+    .hero{
+      padding: 26px 0 10px;
+    }
+
+    .hero-grid{
+      display: grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 18px;
+      align-items: start;
+    }
+
+    @media (max-width: 900px){
+      .hero-grid{ grid-template-columns: 1fr; }
+    }
+
+    .card{
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: var(--radius2);
+      box-shadow: var(--shadow);
+    }
+
+    .card .inner{ padding: 18px; }
+
+    h1{
+      margin: 0 0 10px;
+      font-size: clamp(28px, 3.6vw, 44px);
+      line-height: 1.08;
+      letter-spacing: -0.02em;
+    }
+
+    h2{
+      margin: 0 0 10px;
+      font-size: 20px;
+      letter-spacing: -0.01em;
+    }
+
+    h3{
+      margin: 0 0 8px;
+      font-size: 16px;
+    }
+
+    p{ margin: 0 0 10px; color: var(--muted); }
+
+    .lede{ font-size: 15px; color: var(--muted); }
+
+    .cta-row{ display: flex; gap: 10px; flex-wrap: wrap; margin-top: 14px; }
+
+    .btn{
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.06);
+      color: var(--text);
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      user-select: none;
+    }
+    .btn:hover{ background: rgba(255,255,255,.09); }
+    .btn.primary{
+      background: linear-gradient(135deg, rgba(124,92,255,.95), rgba(45,226,230,.75));
+      border-color: rgba(255,255,255,.18);
+      color: rgba(255,255,255,.95);
+    }
+    .btn.primary:hover{ filter: brightness(1.05); }
+
+    .kbd{ font-family: var(--mono); font-size: 12px; padding: 2px 6px; border-radius: 8px; border: 1px solid var(--border); background: rgba(255,255,255,.05); color: var(--faint); }
+
+    .mini{
+      display: grid;
+      gap: 10px;
+    }
+
+    .stat{
+      padding: 12px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.04);
+    }
+    .stat b{ color: var(--text); }
+    .stat small{ display: block; color: var(--faint); margin-top: 4px; }
+
+    .toc{
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .section{
+      margin-top: 18px;
+    }
+
+    .grid{
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 14px;
+    }
+
+    .col-6{ grid-column: span 6; }
+    .col-7{ grid-column: span 7; }
+    .col-5{ grid-column: span 5; }
+    .col-12{ grid-column: span 12; }
+
+    @media (max-width: 900px){
+      .col-6, .col-7, .col-5{ grid-column: span 12; }
+    }
+
+    .panel{
+      background: rgba(255,255,255,.04);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 14px;
+    }
+
+    label{ display: block; font-size: 13px; color: var(--faint); margin-bottom: 6px; }
+    input[type="range"], input[type="text"], input[type="number"], select, textarea{
+      width: 100%;
+      padding: 10px 10px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.05);
+      color: var(--text);
+      outline: none;
+      font: inherit;
+    }
+    textarea{ min-height: 92px; resize: vertical; }
+
+    .row{ display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    @media (max-width: 700px){ .row{ grid-template-columns: 1fr; } }
+
+    .preview{
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      background: rgba(0,0,0,.18);
+      padding: 14px;
+      overflow: hidden;
+    }
+    @media (prefers-color-scheme: light){
+      .preview{ background: rgba(255,255,255,.65); }
+    }
+
+    .hint{ font-size: 12px; color: var(--faint); margin-top: 8px; }
+
+    .chips{ display: flex; flex-wrap: wrap; gap: 8px; }
+    .chip{ font-size: 12px; padding: 6px 8px; border-radius: 999px; border: 1px solid var(--border); background: rgba(255,255,255,.04); color: var(--muted); }
+
+    .swatches{ display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
+    @media (max-width: 700px){ .swatches{ grid-template-columns: repeat(2, 1fr); } }
+
+    .swatch{
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      overflow: hidden;
+      background: rgba(255,255,255,.03);
+    }
+    .swatch .color{ height: 56px; }
+    .swatch .meta{ padding: 10px; font-family: var(--mono); font-size: 12px; color: var(--muted); display: grid; gap: 4px; }
+
+    .badge{ display: inline-flex; align-items: center; gap: 8px; font-size: 12px; padding: 6px 8px; border-radius: 999px; border: 1px solid var(--border); background: rgba(255,255,255,.04); color: var(--muted); }
+    .badge.good{ border-color: rgba(45,212,191,.35); color: rgba(45,212,191,.95); background: rgba(45,212,191,.10); }
+    .badge.warn{ border-color: rgba(251,191,36,.35); color: rgba(251,191,36,.95); background: rgba(251,191,36,.10); }
+    .badge.bad{ border-color: rgba(251,113,133,.35); color: rgba(251,113,133,.95); background: rgba(251,113,133,.10); }
+
+    details{
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.03);
+      padding: 12px;
+    }
+    details summary{ cursor: pointer; color: var(--text); font-weight: 600; }
+    details p{ margin-top: 10px; }
+
+    footer{
+      margin-top: 26px;
+      padding-top: 18px;
+      border-top: 1px solid rgba(255,255,255,.10);
+      color: var(--faint);
+      font-size: 13px;
+    }
+
+    .code{
+      font-family: var(--mono);
+      font-size: 12px;
+      padding: 10px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: rgba(0,0,0,.22);
+      overflow: auto;
+      white-space: pre;
+      color: rgba(255,255,255,.82);
+    }
+    @media (prefers-color-scheme: light){
+      .code{ background: rgba(0,0,0,.06); color: rgba(0,0,0,.78); }
+    }
+
+    .sr-only{
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+  </style>
+</head>
+<body>
+  <a class="skip" href="#content">Skip to content</a>
+
+  <header>
+    <div class="wrap">
+      <div class="topbar">
+        <div class="brand">
+          <div class="logo" aria-hidden="true"></div>
+          <div>
+            <div style="font-size:14px; color: var(--text)">/design</div>
+            <div style="font-size:12px; color: var(--faint)">Tiny interactive design field guide</div>
+          </div>
+        </div>
+        <nav class="nav" aria-label="Design site navigation">
+          <a class="pill" href="../index.html">← Back to home</a>
+          <a class="pill" href="#principles">Principles</a>
+          <a class="pill" href="#exhibits">Exhibits</a>
+          <a class="pill" href="#checklist">Checklist</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main id="content" class="wrap">
+    <section class="hero">
+      <div class="hero-grid">
+        <div class="card">
+          <div class="inner">
+            <h1>Design is decisions—made visible.</h1>
+            <p class="lede">
+              This mini-site is a practical guide to product & interface design: how to create clarity, hierarchy,
+              and trust. It includes interactive exhibits you can use as a quick “design lab” while building.
+            </p>
+            <div class="cta-row">
+              <a class="btn primary" href="#exhibits">Explore interactive exhibits</a>
+              <button class="btn" id="randomTipBtn" type="button">Give me a design tip <span class="kbd">R</span></button>
+              <button class="btn" id="toggleDyslexiaBtn" type="button" aria-pressed="false">Toggle dyslexia-friendly mode</button>
+            </div>
+            <p class="hint" id="tipOut" aria-live="polite"></p>
+
+            <div class="toc" aria-label="Quick topics">
+              <span class="chip">Hierarchy</span>
+              <span class="chip">Typography</span>
+              <span class="chip">Spacing</span>
+              <span class="chip">Color</span>
+              <span class="chip">Accessibility</span>
+              <span class="chip">Microcopy</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="inner mini">
+            <div class="stat">
+              <b>Rule of thumb:</b> reduce choices.
+              <small>Every extra option adds cognitive load. Prefer defaults + progressive disclosure.</small>
+            </div>
+            <div class="stat">
+              <b>Design ≠ decoration.</b>
+              <small>Good design makes the right action obvious and the wrong action hard.</small>
+            </div>
+            <div class="stat">
+              <b>Accessibility is quality.</b>
+              <small>Contrast, focus states, and readable type help everyone—not just edge cases.</small>
+            </div>
+            <details>
+              <summary>What is this page technically?</summary>
+              <p>
+                It’s a static HTML page (no build step) designed to live under <span class="kbd">/design</span> on GitHub Pages.
+                All interactivity is vanilla JavaScript.
+              </p>
+            </details>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="principles" class="section">
+      <div class="grid">
+        <div class="col-12 card">
+          <div class="inner">
+            <h2>Core principles (use these as a mental model)</h2>
+            <div class="grid" style="margin-top: 10px;">
+              <div class="col-6 panel">
+                <h3>1) Hierarchy</h3>
+                <p>Make the most important thing look most important. Use size, weight, contrast, and spacing to guide attention.</p>
+                <div class="chips">
+                  <span class="chip">One primary action</span>
+                  <span class="chip">Clear headings</span>
+                  <span class="chip">Whitespace as structure</span>
+                </div>
+              </div>
+              <div class="col-6 panel">
+                <h3>2) Consistency</h3>
+                <p>Consistency reduces learning cost. Reuse patterns, spacing, and component behavior across screens.</p>
+                <div class="chips">
+                  <span class="chip">Design tokens</span>
+                  <span class="chip">Component library</span>
+                  <span class="chip">Predictable interactions</span>
+                </div>
+              </div>
+              <div class="col-6 panel">
+                <h3>3) Feedback</h3>
+                <p>Users should always know what happened. Provide immediate, contextual feedback for actions and errors.</p>
+                <div class="chips">
+                  <span class="chip">Loading states</span>
+                  <span class="chip">Inline validation</span>
+                  <span class="chip">Undo when possible</span>
+                </div>
+              </div>
+              <div class="col-6 panel">
+                <h3>4) Accessibility</h3>
+                <p>Design for different abilities and contexts. Contrast, focus, semantics, and motion preferences matter.</p>
+                <div class="chips">
+                  <span class="chip">WCAG contrast</span>
+                  <span class="chip">Keyboard navigation</span>
+                  <span class="chip">Reduced motion</span>
+                </div>
+              </div>
+            </div>
+            <p class="hint">Next: try the exhibits below. Each one turns a principle into something you can tune and test.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="exhibits" class="section">
+      <div class="grid">
+        <div class="col-12">
+          <h2 style="margin: 0 0 10px;">Interactive exhibits</h2>
+          <p style="margin: 0 0 14px;">Hands-on tools for hierarchy, typography, spacing, color, accessibility, and microcopy.</p>
+        </div>
+
+        <!-- Exhibit: Hierarchy / Layout tuner -->
+        <div class="col-7 card">
+          <div class="inner">
+            <h3>Exhibit A — Hierarchy & layout tuner</h3>
+            <p>Adjust emphasis and spacing to see how quickly a layout becomes “scan-able”.</p>
+
+            <div class="grid" style="margin-top: 10px;">
+              <div class="col-6 panel">
+                <label for="aTitleSize">Title size</label>
+                <input id="aTitleSize" type="range" min="22" max="56" value="38" />
+
+                <label for="aTitleWeight" style="margin-top: 10px;">Title weight</label>
+                <input id="aTitleWeight" type="range" min="300" max="900" step="50" value="750" />
+
+                <label for="aBodySize" style="margin-top: 10px;">Body size</label>
+                <input id="aBodySize" type="range" min="12" max="20" value="15" />
+
+                <label for="aSpacing" style="margin-top: 10px;">Section spacing</label>
+                <input id="aSpacing" type="range" min="8" max="28" value="16" />
+
+                <div class="hint">Tip: hierarchy is often more about spacing than color.</div>
+              </div>
+
+              <div class="col-6">
+                <div class="preview" id="aPreview" role="region" aria-label="Hierarchy preview">
+                  <div id="aTitle" style="font-size: 38px; font-weight: 750; letter-spacing: -0.02em; line-height: 1.1; margin-bottom: 10px;">Plan your next sprint</div>
+                  <div id="aBody" style="font-size: 15px; color: var(--muted); margin-bottom: 16px;">
+                    Keep the team aligned with a clear goal, a realistic scope, and a single primary action.
+                  </div>
+                  <div style="display:flex; gap:10px; flex-wrap: wrap;">
+                    <button class="btn primary" type="button">Create sprint</button>
+                    <button class="btn" type="button">View backlog</button>
+                  </div>
+                  <div id="aMeta" class="hint" style="margin-top: 16px;">Hierarchy score: <b id="aScore">—</b></div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="col-5 card">
+          <div class="inner">
+            <h3>How to read hierarchy</h3>
+            <p>
+              A quick heuristic: the primary action should be visually “inevitable”. If users need to hunt,
+              increase contrast, size, or whitespace around the important elements.
+            </p>
+            <details>
+              <summary>Heuristics you can apply today</summary>
+              <p>
+                • One primary button per view (when possible).<br />
+                • Use headings to chunk content.<br />
+                • Use whitespace to separate groups.<br />
+                • Avoid equal emphasis everywhere (it becomes noise).
+              </p>
+            </details>
+          </div>
+        </div>
+
+        <!-- Exhibit: Typography playground -->
+        <div class="col-6 card">
+          <div class="inner">
+            <h3>Exhibit B — Typography playground</h3>
+            <p>Explore readability: line length, line height, and font choice.</p>
+
+            <div class="row" style="margin-top: 10px;">
+              <div class="panel">
+                <label for="bFont">Font</label>
+                <select id="bFont">
+                  <option value="sans">Sans (system)</option>
+                  <option value="serif">Serif</option>
+                  <option value="mono">Monospace</option>
+                </select>
+
+                <label for="bLineHeight" style="margin-top: 10px;">Line height</label>
+                <input id="bLineHeight" type="range" min="1.1" max="2.0" step="0.05" value="1.55" />
+
+                <label for="bMeasure" style="margin-top: 10px;">Line length (measure)</label>
+                <input id="bMeasure" type="range" min="38" max="90" value="66" />
+
+                <label for="bText" style="margin-top: 10px;">Sample text</label>
+                <textarea id="bText">Good typography is invisible. It helps readers understand without noticing the mechanics. Aim for comfortable line length (about 45–75 characters), generous line height, and clear hierarchy between headings and body.</textarea>
+
+                <div class="hint" id="bHint"></div>
+              </div>
+
+              <div class="preview" id="bPreview" role="region" aria-label="Typography preview">
+                <div style="font-weight: 800; letter-spacing: -0.01em; margin-bottom: 10px;">Readable by default</div>
+                <div id="bBody" style="max-width: 66ch; line-height: 1.55; color: var(--muted);"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Exhibit: Spacing scale generator -->
+        <div class="col-6 card">
+          <div class="inner">
+            <h3>Exhibit C — Spacing scale generator</h3>
+            <p>Generate a consistent spacing scale (design tokens) from a base and ratio.</p>
+
+            <div class="row" style="margin-top: 10px;">
+              <div class="panel">
+                <div class="row">
+                  <div>
+                    <label for="cBase">Base (px)</label>
+                    <input id="cBase" type="number" min="2" max="24" value="8" />
+                  </div>
+                  <div>
+                    <label for="cRatio">Ratio</label>
+                    <input id="cRatio" type="number" min="1.1" max="2" step="0.05" value="1.5" />
+                  </div>
+                </div>
+
+                <label for="cSteps" style="margin-top: 10px;">Steps</label>
+                <input id="cSteps" type="range" min="5" max="12" value="8" />
+
+                <div class="cta-row" style="margin-top: 10px;">
+                  <button class="btn" type="button" id="cCopy">Copy tokens</button>
+                  <button class="btn" type="button" id="cReset">Reset</button>
+                </div>
+
+                <div class="hint">Tip: use fewer sizes than you think. Consistency beats precision.</div>
+              </div>
+
+              <div>
+                <div class="preview" role="region" aria-label="Spacing preview">
+                  <div style="display:grid; gap: 10px;">
+                    <div class="panel" style="padding: 10px;">
+                      <div style="font-weight:700; margin-bottom: 6px;">Spacing in action</div>
+                      <div id="cDemo" style="display:grid; gap: 12px;">
+                        <div class="panel" style="padding: 10px;">Card</div>
+                        <div class="panel" style="padding: 10px;">Card</div>
+                        <div class="panel" style="padding: 10px;">Card</div>
+                      </div>
+                      <div class="hint">Gap updates to your scale’s “step 3”.</div>
+                    </div>
+                    <div class="code" id="cOut" aria-label="Generated spacing tokens"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Exhibit: Palette builder + contrast checker -->
+        <div class="col-12 card">
+          <div class="inner">
+            <h3>Exhibit D — Color palette builder + WCAG contrast checker</h3>
+            <p>Pick colors, generate tints/shades, and verify contrast for normal text.</p>
+
+            <div class="grid" style="margin-top: 10px;">
+              <div class="col-5 panel">
+                <div class="row">
+                  <div>
+                    <label for="dBg">Background</label>
+                    <input id="dBg" type="text" value="#0b1020" />
+                  </div>
+                  <div>
+                    <label for="dFg">Text</label>
+                    <input id="dFg" type="text" value="#ffffff" />
+                  </div>
+                </div>
+
+                <div class="row" style="margin-top: 10px;">
+                  <div>
+                    <label for="dAccent">Accent</label>
+                    <input id="dAccent" type="text" value="#7c5cff" />
+                  </div>
+                  <div>
+                    <label for="dSteps">Palette steps</label>
+                    <input id="dSteps" type="range" min="5" max="11" value="7" />
+                  </div>
+                </div>
+
+                <div class="cta-row" style="margin-top: 10px;">
+                  <button class="btn" type="button" id="dApply">Apply</button>
+                  <button class="btn" type="button" id="dSwap">Swap text/bg</button>
+                  <button class="btn" type="button" id="dCopy">Copy CSS vars</button>
+                </div>
+
+                <div class="hint" id="dContrastHint"></div>
+              </div>
+
+              <div class="col-7">
+                <div class="preview" id="dPreview" role="region" aria-label="Color preview">
+                  <div style="display:flex; align-items:center; justify-content: space-between; gap: 10px; flex-wrap: wrap;">
+                    <div>
+                      <div style="font-weight: 800; letter-spacing: -0.01em;">Preview</div>
+                      <div style="color: var(--muted);">Buttons, links, and surfaces using your palette.</div>
+                    </div>
+                    <div class="chips" id="dBadges"></div>
+                  </div>
+
+                  <div style="display:grid; gap: 12px; margin-top: 12px;">
+                    <div class="panel" id="dSurface" style="padding: 14px;">
+                      <div style="display:flex; gap: 10px; flex-wrap: wrap; align-items:center; justify-content: space-between;">
+                        <div>
+                          <div style="font-weight: 700;">Surface</div>
+                          <div style="color: var(--muted);">A card-like container.</div>
+                        </div>
+                        <div style="display:flex; gap: 10px; flex-wrap: wrap;">
+                          <button class="btn" type="button" id="dSecondaryBtn">Secondary</button>
+                          <button class="btn primary" type="button" id="dPrimaryBtn">Primary</button>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div>
+                      <div style="font-weight: 700; margin-bottom: 8px;">Accent scale</div>
+                      <div class="swatches" id="dSwatches"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Exhibit: Microcopy improver -->
+        <div class="col-12 card">
+          <div class="inner">
+            <h3>Exhibit E — Microcopy improver</h3>
+            <p>Turn vague UI text into clear, helpful microcopy. (No AI calls—just heuristics.)</p>
+
+            <div class="grid" style="margin-top: 10px;">
+              <div class="col-6 panel">
+                <label for="eInput">Your text</label>
+                <textarea id="eInput" placeholder="Example: 'Invalid input' or 'Something went wrong'">Something went wrong</textarea>
+
+                <div class="row" style="margin-top: 10px;">
+                  <div>
+                    <label for="eContext">Context</label>
+                    <select id="eContext">
+                      <option value="error">Error message</option>
+                      <option value="empty">Empty state</option>
+                      <option value="cta">Button label</option>
+                      <option value="helper">Helper text</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label for="eTone">Tone</label>
+                    <select id="eTone">
+                      <option value="neutral">Neutral</option>
+                      <option value="friendly">Friendly</option>
+                      <option value="direct">Direct</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="cta-row" style="margin-top: 10px;">
+                  <button class="btn primary" type="button" id="eImprove">Improve</button>
+                  <button class="btn" type="button" id="eCopy">Copy</button>
+                </div>
+
+                <div class="hint">Heuristic: say what happened, why (if known), and what to do next.</div>
+              </div>
+
+              <div class="col-6">
+                <div class="preview" role="region" aria-label="Microcopy output">
+                  <div style="font-weight: 800; letter-spacing: -0.01em; margin-bottom: 10px;">Suggested copy</div>
+                  <div class="panel" style="padding: 12px;">
+                    <div id="eOutput" style="color: var(--text);"></div>
+                    <div class="hint" id="eNotes"></div>
+                  </div>
+
+                  <div style="margin-top: 12px;">
+                    <div style="font-weight: 700; margin-bottom: 8px;">Checklist for good microcopy</div>
+                    <div class="chips">
+                      <span class="chip">Specific</span>
+                      <span class="chip">Actionable</span>
+                      <span class="chip">Non-blaming</span>
+                      <span class="chip">Short</span>
+                      <span class="chip">Consistent terms</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <section id="checklist" class="section">
+      <div class="grid">
+        <div class="col-12 card">
+          <div class="inner">
+            <h2>Practical design checklist (ship-ready)</h2>
+            <p>Use this before you call a screen “done”.</p>
+
+            <div class="grid" style="margin-top: 10px;">
+              <div class="col-6 panel">
+                <h3>Clarity</h3>
+                <p>
+                  • Can a new user answer: “What is this?” in 5 seconds?<br />
+                  • Is there one primary action?<br />
+                  • Are labels concrete (not internal jargon)?
+                </p>
+              </div>
+              <div class="col-6 panel">
+                <h3>Accessibility</h3>
+                <p>
+                  • Contrast meets WCAG (aim AA).<br />
+                  • Keyboard focus is visible and logical.<br />
+                  • Motion respects <span class="kbd">prefers-reduced-motion</span>.
+                </p>
+              </div>
+              <div class="col-6 panel">
+                <h3>Consistency</h3>
+                <p>
+                  • Spacing uses a scale (tokens).<br />
+                  • Buttons behave consistently (hover/disabled/loading).<br />
+                  • Same concept uses same words everywhere.
+                </p>
+              </div>
+              <div class="col-6 panel">
+                <h3>Trust</h3>
+                <p>
+                  • Errors explain what to do next.<br />
+                  • Destructive actions are confirmable/undoable.<br />
+                  • Empty states teach users how to proceed.
+                </p>
+              </div>
+            </div>
+
+            <footer>
+              <div style="display:flex; justify-content: space-between; gap: 10px; flex-wrap: wrap;">
+                <div>
+                  Built as a static sub-site under <span class="kbd">/design</span>. No dependencies.
+                </div>
+                <div>
+                  Keyboard: <span class="kbd">R</span> random tip · <span class="kbd">/</span> focus search (browser) · <span class="kbd">Tab</span> to navigate
+                </div>
+              </div>
+            </footer>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // Utilities
+    const $ = (sel, root=document) => root.querySelector(sel);
+    const clamp = (n, a, b) => Math.min(b, Math.max(a, n));
+
+    function parseHex(hex){
+      const h = String(hex).trim();
+      const m = h.match(/^#?([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/);
+      if(!m) return null;
+      let v = m[1];
+      if(v.length === 3) v = v.split('').map(ch => ch + ch).join('');
+      const r = parseInt(v.slice(0,2), 16);
+      const g = parseInt(v.slice(2,4), 16);
+      const b = parseInt(v.slice(4,6), 16);
+      return { r, g, b };
+    }
+
+    function toHex({r,g,b}){
+      const h = (x) => x.toString(16).padStart(2,'0');
+      return `#${h(r)}${h(g)}${h(b)}`;
+    }
+
+    function mix(a, b, t){
+      return {
+        r: Math.round(a.r + (b.r - a.r) * t),
+        g: Math.round(a.g + (b.g - a.g) * t),
+        b: Math.round(a.b + (b.b - a.b) * t)
+      };
+    }
+
+    // WCAG relative luminance + contrast
+    function srgbToLin(c){
+      const v = c / 255;
+      return v <= 0.04045 ? v/12.92 : Math.pow((v+0.055)/1.055, 2.4);
+    }
+    function luminance(rgb){
+      const R = srgbToLin(rgb.r);
+      const G = srgbToLin(rgb.g);
+      const B = srgbToLin(rgb.b);
+      return 0.2126*R + 0.7152*G + 0.0722*B;
+    }
+    function contrastRatio(a, b){
+      const L1 = luminance(a);
+      const L2 = luminance(b);
+      const hi = Math.max(L1, L2);
+      const lo = Math.min(L1, L2);
+      return (hi + 0.05) / (lo + 0.05);
+    }
+
+    function copyToClipboard(text){
+      if(navigator.clipboard && navigator.clipboard.writeText){
+        return navigator.clipboard.writeText(text);
+      }
+      // fallback
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.left = '-9999px';
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      return Promise.resolve();
+    }
+
+    // Hero tips
+    const tips = [
+      "If everything is emphasized, nothing is. Pick one primary action.",
+      "Whitespace is not empty space; it’s structure.",
+      "Prefer verbs for buttons: ‘Create invoice’ beats ‘Submit’.",
+      "Design for the error state first—then the happy path feels easy.",
+      "Use a spacing scale (tokens). Consistency beats perfect numbers.",
+      "Aim for 45–75 characters per line for comfortable reading.",
+      "Contrast is a feature. If it’s hard to read, it’s hard to use.",
+      "Make the next step obvious. Reduce decisions with good defaults.",
+      "Use progressive disclosure: show basics first, details on demand.",
+      "Microcopy should be specific, actionable, and non-blaming."
+    ];
+
+    function randomTip(){
+      const tip = tips[Math.floor(Math.random() * tips.length)];
+      $('#tipOut').textContent = tip;
+    }
+
+    $('#randomTipBtn').addEventListener('click', randomTip);
+    window.addEventListener('keydown', (e) => {
+      if(e.key.toLowerCase() === 'r' && !e.metaKey && !e.ctrlKey && !e.altKey){
+        // avoid triggering while typing
+        const tag = (document.activeElement && document.activeElement.tagName || '').toLowerCase();
+        if(['input','textarea','select'].includes(tag)) return;
+        randomTip();
+      }
+    });
+
+    // Dyslexia-friendly mode (simple: increase letter spacing + line height)
+    let dyslexiaMode = false;
+    $('#toggleDyslexiaBtn').addEventListener('click', () => {
+      dyslexiaMode = !dyslexiaMode;
+      document.documentElement.style.setProperty('--dyslexia-letter', dyslexiaMode ? '0.02em' : '0');
+      document.documentElement.style.setProperty('--dyslexia-line', dyslexiaMode ? '1.65' : '1.45');
+      document.body.style.letterSpacing = dyslexiaMode ? '0.02em' : '';
+      document.body.style.lineHeight = dyslexiaMode ? '1.65' : '';
+      $('#toggleDyslexiaBtn').setAttribute('aria-pressed', String(dyslexiaMode));
+    });
+
+    // Exhibit A: hierarchy tuner
+    const aTitleSize = $('#aTitleSize');
+    const aTitleWeight = $('#aTitleWeight');
+    const aBodySize = $('#aBodySize');
+    const aSpacing = $('#aSpacing');
+    const aTitle = $('#aTitle');
+    const aBody = $('#aBody');
+    const aScore = $('#aScore');
+
+    function updateA(){
+      const ts = Number(aTitleSize.value);
+      const tw = Number(aTitleWeight.value);
+      const bs = Number(aBodySize.value);
+      const sp = Number(aSpacing.value);
+
+      aTitle.style.fontSize = ts + 'px';
+      aTitle.style.fontWeight = String(tw);
+      aBody.style.fontSize = bs + 'px';
+      aBody.style.marginBottom = sp + 'px';
+
+      // Simple heuristic score: title/body ratio + spacing
+      const ratio = ts / bs;
+      const ratioScore = clamp((ratio - 1.2) / (3.2 - 1.2), 0, 1);
+      const spacingScore = clamp((sp - 10) / (24 - 10), 0, 1);
+      const weightScore = clamp((tw - 400) / (900 - 400), 0, 1);
+      const score = Math.round((0.55*ratioScore + 0.25*spacingScore + 0.20*weightScore) * 100);
+      aScore.textContent = score + '/100';
+    }
+
+    [aTitleSize, aTitleWeight, aBodySize, aSpacing].forEach(el => el.addEventListener('input', updateA));
+    updateA();
+
+    // Exhibit B: typography
+    const bFont = $('#bFont');
+    const bLineHeight = $('#bLineHeight');
+    const bMeasure = $('#bMeasure');
+    const bText = $('#bText');
+    const bBody = $('#bBody');
+    const bHint = $('#bHint');
+
+    function updateB(){
+      const font = bFont.value;
+      const lh = Number(bLineHeight.value);
+      const measure = Number(bMeasure.value);
+      const text = bText.value;
+
+      const family = font === 'serif' ? 'var(--serif)' : font === 'mono' ? 'var(--mono)' : 'var(--sans)';
+      bBody.style.fontFamily = family;
+      bBody.style.lineHeight = String(lh);
+      bBody.style.maxWidth = measure + 'ch';
+      bBody.textContent = text;
+
+      const measureHint = measure < 45 ? 'Too narrow: feels choppy.' : measure > 75 ? 'Too wide: hard to track lines.' : 'Comfortable measure.';
+      const lhHint = lh < 1.35 ? 'Line height is tight.' : lh > 1.8 ? 'Line height is very loose.' : 'Line height looks good.';
+      bHint.textContent = `${measureHint} ${lhHint}`;
+    }
+
+    [bFont, bLineHeight, bMeasure, bText].forEach(el => el.addEventListener('input', updateB));
+    updateB();
+
+    // Exhibit C: spacing scale
+    const cBase = $('#cBase');
+    const cRatio = $('#cRatio');
+    const cSteps = $('#cSteps');
+    const cOut = $('#cOut');
+    const cDemo = $('#cDemo');
+
+    function genSpacing(base, ratio, steps){
+      const vals = [];
+      for(let i=0;i<steps;i++){
+        const v = Math.round(base * Math.pow(ratio, i));
+        vals.push(v);
+      }
+      // de-dup if rounding collides
+      return vals.filter((v, i, arr) => i === 0 || v !== arr[i-1]);
+    }
+
+    function updateC(){
+      const base = clamp(Number(cBase.value || 8), 2, 24);
+      const ratio = clamp(Number(cRatio.value || 1.5), 1.1, 2);
+      const steps = clamp(Number(cSteps.value || 8), 5, 12);
+
+      const vals = genSpacing(base, ratio, steps);
+      const lines = vals.map((v, i) => `  --space-${i}: ${v}px;`).join('\n');
+      cOut.textContent = `:root {\n${lines}\n}`;
+
+      const gap = vals[Math.min(3, vals.length-1)];
+      cDemo.style.gap = gap + 'px';
+    }
+
+    $('#cCopy').addEventListener('click', async () => {
+      await copyToClipboard(cOut.textContent);
+      $('#cCopy').textContent = 'Copied';
+      setTimeout(() => $('#cCopy').textContent = 'Copy tokens', 900);
+    });
+
+    $('#cReset').addEventListener('click', () => {
+      cBase.value = 8;
+      cRatio.value = 1.5;
+      cSteps.value = 8;
+      updateC();
+    });
+
+    [cBase, cRatio, cSteps].forEach(el => el.addEventListener('input', updateC));
+    updateC();
+
+    // Exhibit D: palette + contrast
+    const dBg = $('#dBg');
+    const dFg = $('#dFg');
+    const dAccent = $('#dAccent');
+    const dSteps = $('#dSteps');
+    const dApply = $('#dApply');
+    const dSwap = $('#dSwap');
+    const dCopy = $('#dCopy');
+    const dPreview = $('#dPreview');
+    const dSurface = $('#dSurface');
+    const dSwatches = $('#dSwatches');
+    const dBadges = $('#dBadges');
+    const dContrastHint = $('#dContrastHint');
+
+    function badgeForContrast(r){
+      // WCAG for normal text: AA 4.5, AAA 7
+      if(r >= 7) return { cls: 'good', label: `AAA (${r.toFixed(2)}:1)` };
+      if(r >= 4.5) return { cls: 'warn', label: `AA (${r.toFixed(2)}:1)` };
+      return { cls: 'bad', label: `Fail (${r.toFixed(2)}:1)` };
+    }
+
+    function updateD(){
+      const bg = parseHex(dBg.value);
+      const fg = parseHex(dFg.value);
+      const ac = parseHex(dAccent.value);
+      const steps = clamp(Number(dSteps.value || 7), 5, 11);
+
+      if(!bg || !fg || !ac){
+        dContrastHint.textContent = 'Enter valid hex colors like #112233.';
+        return;
+      }
+
+      // Apply preview colors
+      dPreview.style.background = toHex(bg);
+      dPreview.style.color = toHex(fg);
+      dSurface.style.background = mix(bg, fg, 0.06) ? `rgba(255,255,255,.06)` : '';
+
+      // Buttons
+      $('#dPrimaryBtn').style.background = toHex(ac);
+      $('#dPrimaryBtn').style.borderColor = 'rgba(255,255,255,.18)';
+      $('#dPrimaryBtn').style.color = (contrastRatio(ac, fg) >= 4.5) ? toHex(fg) : '#ffffff';
+
+      $('#dSecondaryBtn').style.background = 'transparent';
+      $('#dSecondaryBtn').style.borderColor = 'rgba(255,255,255,.25)';
+      $('#dSecondaryBtn').style.color = toHex(fg);
+
+      // Contrast badges
+      const rText = contrastRatio(bg, fg);
+      const rAccentText = contrastRatio(ac, fg);
+      const rAccentOnBg = contrastRatio(bg, ac);
+
+      dBadges.innerHTML = '';
+      const b1 = badgeForContrast(rText);
+      const b2 = badgeForContrast(rAccentOnBg);
+      const b3 = badgeForContrast(rAccentText);
+
+      const mk = (b, title) => {
+        const el = document.createElement('span');
+        el.className = `badge ${b.cls}`;
+        el.textContent = `${title}: ${b.label}`;
+        return el;
+      };
+      dBadges.appendChild(mk(b1, 'Text on bg'));
+      dBadges.appendChild(mk(b2, 'Accent on bg'));
+      dBadges.appendChild(mk(b3, 'Text on accent'));
+
+      dContrastHint.textContent = `Text contrast is ${rText.toFixed(2)}:1 (AA ≥ 4.5, AAA ≥ 7).`;
+
+      // Generate accent scale by mixing with bg and fg
+      const sw = [];
+      const half = Math.floor(steps/2);
+      for(let i=0;i<steps;i++){
+        let c;
+        if(i < half){
+          // darker: mix accent toward bg
+          const t = (half - i) / (half + 1);
+          c = mix(ac, bg, t);
+        } else if(i === half){
+          c = ac;
+        } else {
+          // lighter: mix accent toward fg
+          const t = (i - half) / (steps - half);
+          c = mix(ac, fg, t * 0.85);
+        }
+        sw.push(c);
+      }
+
+      dSwatches.innerHTML = '';
+      sw.forEach((c, i) => {
+        const hex = toHex(c);
+        const item = document.createElement('div');
+        item.className = 'swatch';
+        const color = document.createElement('div');
+        color.className = 'color';
+        color.style.background = hex;
+        const meta = document.createElement('div');
+        meta.className = 'meta';
+        const cr = contrastRatio(c, bg);
+        meta.innerHTML = `<div>${hex}</div><div style="color: var(--faint)">on bg: ${cr.toFixed(2)}:1</div>`;
+        item.appendChild(color);
+        item.appendChild(meta);
+        item.addEventListener('click', async () => {
+          await copyToClipboard(hex);
+          meta.innerHTML = `<div>${hex}</div><div style="color: var(--faint)">Copied</div>`;
+          setTimeout(() => {
+            meta.innerHTML = `<div>${hex}</div><div style="color: var(--faint)">on bg: ${cr.toFixed(2)}:1</div>`;
+          }, 800);
+        });
+        dSwatches.appendChild(item);
+      });
+
+      // Store for copy
+      dPreview.dataset.bg = toHex(bg);
+      dPreview.dataset.fg = toHex(fg);
+      dPreview.dataset.ac = toHex(ac);
+    }
+
+    dApply.addEventListener('click', updateD);
+    dSwap.addEventListener('click', () => {
+      const tmp = dBg.value;
+      dBg.value = dFg.value;
+      dFg.value = tmp;
+      updateD();
+    });
+    dCopy.addEventListener('click', async () => {
+      const bg = dPreview.dataset.bg || dBg.value;
+      const fg = dPreview.dataset.fg || dFg.value;
+      const ac = dPreview.dataset.ac || dAccent.value;
+      const css = `:root {\n  --bg: ${bg};\n  --text: ${fg};\n  --accent: ${ac};\n}`;
+      await copyToClipboard(css);
+      dCopy.textContent = 'Copied';
+      setTimeout(() => dCopy.textContent = 'Copy CSS vars', 900);
+    });
+
+    [dBg, dFg, dAccent, dSteps].forEach(el => el.addEventListener('input', () => {
+      // live update but keep it light
+      updateD();
+    }));
+    updateD();
+
+    // Exhibit E: microcopy improver
+    const eInput = $('#eInput');
+    const eContext = $('#eContext');
+    const eTone = $('#eTone');
+    const eOutput = $('#eOutput');
+    const eNotes = $('#eNotes');
+
+    function improveMicrocopy(text, context, tone){
+      const t = String(text || '').trim();
+      const lower = t.toLowerCase();
+
+      const tonePrefix = tone === 'friendly' ? 'Heads up: ' : '';
+      const toneSuffix = tone === 'friendly' ? ' If you keep seeing this, contact support.' : '';
+
+      if(context === 'cta'){
+        // Convert generic CTA to verb + object
+        const generic = ['submit','send','ok','okay','continue','next','save','done'];
+        if(generic.includes(lower)){
+          return {
+            out: 'Continue',
+            notes: 'Button labels work best as clear verbs. If possible, name the object: “Create account”, “Save changes”.'
+          };
+        }
+        return {
+          out: t.length ? t : 'Continue',
+          notes: 'Prefer verb-first labels. Avoid “OK” unless the action is obvious from context.'
+        };
+      }
+
+      if(context === 'empty'){
+        const base = t || 'Nothing here yet.';
+        const out = tone === 'direct'
+          ? `${base} Add your first item to get started.`
+          : `${base} Create your first item to get started.`;
+        return {
+          out,
+          notes: 'Good empty states explain what this area is for and provide a next step.'
+        };
+      }
+
+      if(context === 'helper'){
+        const out = t || 'Use a strong password with at least 12 characters.';
+        return {
+          out,
+          notes: 'Helper text should prevent errors: constraints, examples, and what “good” looks like.'
+        };
+      }
+
+      // error
+      if(lower.includes('something went wrong') || lower.includes('error')){
+        const out = tone === 'direct'
+          ? 'We couldn’t complete that request. Try again.'
+          : `${tonePrefix}We couldn’t complete that request. Please try again.${toneSuffix}`;
+        return {
+          out,
+          notes: 'Avoid vague errors. Say what failed, and what the user can do next.'
+        };
+      }
+
+      if(lower.includes('invalid') || lower.includes('incorrect')){
+        const out = tone === 'direct'
+          ? 'That value doesn’t look right. Check the format and try again.'
+          : `${tonePrefix}That value doesn’t look right. Check the format and try again.`;
+        return {
+          out,
+          notes: 'Point to the field and explain the expected format (with an example if possible).'
+        };
+      }
+
+      // generic fallback
+      const out = tone === 'direct'
+        ? (t || 'Please review the highlighted fields and try again.')
+        : `${tonePrefix}${t || 'Please review the highlighted fields and try again.'}`;
+
+      return {
+        out,
+        notes: 'Try to include: what happened, why (if known), and the next step. Keep it non-blaming.'
+      };
+    }
+
+    function updateE(){
+      const { out, notes } = improveMicrocopy(eInput.value, eContext.value, eTone.value);
+      eOutput.textContent = out;
+      eNotes.textContent = notes;
+    }
+
+    $('#eImprove').addEventListener('click', updateE);
+    $('#eCopy').addEventListener('click', async () => {
+      await copyToClipboard(eOutput.textContent);
+      $('#eCopy').textContent = 'Copied';
+      setTimeout(() => $('#eCopy').textContent = 'Copy', 900);
+    });
+    [eInput, eContext, eTone].forEach(el => el.addEventListener('input', updateE));
+    updateE();
+
+    // Initialize tip
+    randomTip();
+  </script>
+</body>
+</html>
