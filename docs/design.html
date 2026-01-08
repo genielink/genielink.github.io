@@ -1,0 +1,775 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>GenieLink — Design</title>
+  <meta name="description" content="GenieLink design principles and interactive exhibits." />
+  <style>
+    :root{
+      --bg: #0b1020;
+      --panel: rgba(255,255,255,.06);
+      --panel2: rgba(255,255,255,.09);
+      --text: rgba(255,255,255,.92);
+      --muted: rgba(255,255,255,.72);
+      --faint: rgba(255,255,255,.55);
+      --line: rgba(255,255,255,.14);
+      --accent: #7c5cff;
+      --accent2: #2ee9a6;
+      --warn: #ffcc66;
+      --danger: #ff5c7a;
+      --shadow: 0 18px 60px rgba(0,0,0,.45);
+      --radius: 16px;
+      --radius2: 22px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+    }
+
+    *{ box-sizing: border-box; }
+    html, body{ height: 100%; }
+    body{
+      margin: 0;
+      font-family: var(--sans);
+      color: var(--text);
+      background:
+        radial-gradient(1200px 800px at 20% 10%, rgba(124,92,255,.25), transparent 60%),
+        radial-gradient(900px 700px at 80% 20%, rgba(46,233,166,.18), transparent 55%),
+        radial-gradient(900px 700px at 50% 90%, rgba(255,92,122,.10), transparent 55%),
+        linear-gradient(180deg, #070a14, var(--bg));
+      overflow-x: hidden;
+    }
+
+    a{ color: inherit; text-decoration: none; }
+    a:hover{ text-decoration: underline; }
+
+    .wrap{
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 28px 18px 80px;
+    }
+
+    header{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 14px 16px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius2);
+      background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04));
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+      position: sticky;
+      top: 12px;
+      z-index: 10;
+    }
+
+    .brand{
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 220px;
+    }
+
+    .logo{
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      background:
+        radial-gradient(10px 10px at 30% 30%, rgba(255,255,255,.9), rgba(255,255,255,0) 60%),
+        linear-gradient(135deg, rgba(124,92,255,.95), rgba(46,233,166,.85));
+      box-shadow: 0 10px 30px rgba(124,92,255,.25);
+      border: 1px solid rgba(255,255,255,.18);
+    }
+
+    .brand h1{
+      font-size: 14px;
+      margin: 0;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.86);
+    }
+
+    nav{
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .pill{
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.05);
+      color: rgba(255,255,255,.86);
+      font-size: 13px;
+      line-height: 1;
+      user-select: none;
+    }
+    .pill:hover{ background: rgba(255,255,255,.08); text-decoration: none; }
+
+    .pill .dot{
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--accent2);
+      box-shadow: 0 0 0 3px rgba(46,233,166,.12);
+    }
+
+    .hero{
+      margin-top: 22px;
+      padding: 26px 18px;
+      border-radius: var(--radius2);
+      border: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.03));
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero:before{
+      content: "";
+      position: absolute;
+      inset: -2px;
+      background:
+        radial-gradient(600px 240px at 20% 20%, rgba(124,92,255,.22), transparent 60%),
+        radial-gradient(520px 240px at 80% 30%, rgba(46,233,166,.16), transparent 60%);
+      filter: blur(0px);
+      pointer-events: none;
+    }
+
+    .hero > *{ position: relative; }
+
+    .hero h2{
+      margin: 0 0 10px;
+      font-size: 28px;
+      letter-spacing: -0.02em;
+    }
+
+    .hero p{
+      margin: 0;
+      color: var(--muted);
+      max-width: 70ch;
+      line-height: 1.55;
+    }
+
+    .grid{
+      display: grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 16px;
+      margin-top: 16px;
+    }
+
+    @media (max-width: 920px){
+      .grid{ grid-template-columns: 1fr; }
+      header{ position: static; }
+      .brand{ min-width: unset; }
+    }
+
+    .card{
+      border: 1px solid var(--line);
+      border-radius: var(--radius2);
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .card .hd{
+      padding: 14px 16px;
+      border-bottom: 1px solid rgba(255,255,255,.10);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .card .hd h3{
+      margin: 0;
+      font-size: 14px;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.86);
+    }
+
+    .card .bd{ padding: 16px; }
+
+    .kvs{
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+
+    .kv{
+      padding: 12px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.18);
+    }
+
+    .kv b{ display: block; font-size: 13px; letter-spacing: .02em; }
+    .kv span{ display: block; margin-top: 6px; color: var(--muted); line-height: 1.45; font-size: 13px; }
+
+    .exhibits{
+      margin-top: 16px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    @media (max-width: 980px){
+      .exhibits{ grid-template-columns: 1fr; }
+    }
+
+    .exhibit{
+      border: 1px solid var(--line);
+      border-radius: var(--radius2);
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      min-height: 320px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .exhibit .hd{
+      padding: 14px 16px;
+      border-bottom: 1px solid rgba(255,255,255,.10);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .exhibit .hd h3{
+      margin: 0;
+      font-size: 14px;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.86);
+    }
+
+    .exhibit .bd{ padding: 16px; flex: 1; }
+
+    .row{ display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+
+    label{ font-size: 12px; color: var(--muted); }
+
+    input[type="range"]{ width: 180px; }
+
+    .btn{
+      appearance: none;
+      border: 1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.06);
+      color: rgba(255,255,255,.9);
+      padding: 9px 10px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: 13px;
+    }
+    .btn:hover{ background: rgba(255,255,255,.10); }
+
+    .btn.primary{
+      border-color: rgba(124,92,255,.55);
+      background: linear-gradient(135deg, rgba(124,92,255,.35), rgba(46,233,166,.18));
+    }
+
+    .mono{
+      font-family: var(--mono);
+      font-size: 12px;
+      color: rgba(255,255,255,.82);
+    }
+
+    .small{ font-size: 12px; color: var(--muted); line-height: 1.45; }
+
+    .canvasWrap{
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.22);
+      overflow: hidden;
+      margin-top: 12px;
+    }
+
+    canvas{ display: block; width: 100%; height: 180px; }
+
+    .toast{
+      position: fixed;
+      left: 50%;
+      bottom: 18px;
+      transform: translateX(-50%);
+      background: rgba(0,0,0,.55);
+      border: 1px solid rgba(255,255,255,.16);
+      color: rgba(255,255,255,.9);
+      padding: 10px 12px;
+      border-radius: 999px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .18s ease;
+      font-size: 13px;
+      max-width: min(92vw, 900px);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .toast.show{ opacity: 1; }
+
+    footer{
+      margin-top: 22px;
+      color: var(--faint);
+      font-size: 12px;
+      line-height: 1.5;
+      text-align: center;
+    }
+
+    .kbd{
+      font-family: var(--mono);
+      font-size: 11px;
+      padding: 2px 6px;
+      border-radius: 8px;
+      border: 1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.06);
+      color: rgba(255,255,255,.86);
+    }
+
+    .tag{
+      font-size: 11px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.05);
+      color: rgba(255,255,255,.78);
+      white-space: nowrap;
+    }
+
+    .legend{
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: flex-end;
+    }
+
+    .swatch{
+      width: 10px;
+      height: 10px;
+      border-radius: 3px;
+      display: inline-block;
+      margin-right: 6px;
+      vertical-align: -1px;
+    }
+
+    .sw1{ background: rgba(124,92,255,.9); }
+    .sw2{ background: rgba(46,233,166,.9); }
+    .sw3{ background: rgba(255,92,122,.9); }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <div class="logo" aria-hidden="true"></div>
+        <h1>GenieLink / Design</h1>
+      </div>
+      <nav>
+        <a class="pill" href="./index.html" title="Back to home">
+          <span class="dot" style="background: var(--accent);"></span>
+          Home
+        </a>
+        <a class="pill" href="#principles">
+          <span class="dot"></span>
+          Principles
+        </a>
+        <a class="pill" href="#exhibits">
+          <span class="dot" style="background: var(--accent2);"></span>
+          Exhibits
+        </a>
+        <a class="pill" href="#tokens">
+          <span class="dot" style="background: var(--warn);"></span>
+          Tokens
+        </a>
+      </nav>
+    </header>
+
+    <section class="hero">
+      <h2>Design that ships: clear, fast, and kind.</h2>
+      <p>
+        This page is a small, self-contained design sub-site for GenieLink. It documents a few
+        principles and includes three interactive exhibits you can tweak to see how the system behaves.
+      </p>
+    </section>
+
+    <section class="grid" id="principles">
+      <div class="card">
+        <div class="hd">
+          <h3>Principles</h3>
+          <div class="legend">
+            <span class="tag"><span class="swatch sw1"></span>Clarity</span>
+            <span class="tag"><span class="swatch sw2"></span>Speed</span>
+            <span class="tag"><span class="swatch sw3"></span>Delight</span>
+          </div>
+        </div>
+        <div class="bd">
+          <div class="kvs">
+            <div class="kv">
+              <b>1) Make the next action obvious</b>
+              <span>Prefer one primary action per view. Use progressive disclosure for advanced controls.</span>
+            </div>
+            <div class="kv">
+              <b>2) Reduce cognitive load</b>
+              <span>Use consistent spacing, typography, and component patterns. Avoid novelty that costs comprehension.</span>
+            </div>
+            <div class="kv">
+              <b>3) Feedback in &lt; 100ms, progress in &lt; 1s</b>
+              <span>Instant UI response, then show progress. If it takes longer, explain what’s happening.</span>
+            </div>
+            <div class="kv">
+              <b>4) Accessible by default</b>
+              <span>High contrast, keyboard support, and readable motion. Animations should be optional and subtle.</span>
+            </div>
+            <div class="kv">
+              <b>5) Design tokens over one-off styling</b>
+              <span>Centralize colors, radii, and typography. Components should be themeable and predictable.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" id="tokens">
+        <div class="hd">
+          <h3>Tokens (live)</h3>
+          <span class="tag">Self-contained</span>
+        </div>
+        <div class="bd">
+          <div class="small">These are the core tokens used on this page.</div>
+          <div style="height:10px"></div>
+          <div class="kvs">
+            <div class="kv">
+              <b>Colors</b>
+              <span class="mono">--accent: #7c5cff · --accent2: #2ee9a6 · --danger: #ff5c7a</span>
+            </div>
+            <div class="kv">
+              <b>Radii</b>
+              <span class="mono">--radius: 16px · --radius2: 22px</span>
+            </div>
+            <div class="kv">
+              <b>Typography</b>
+              <span class="mono">--sans: system-ui · --mono: ui-monospace</span>
+            </div>
+          </div>
+          <div style="height:12px"></div>
+          <div class="small">
+            Tip: use <span class="kbd">Tab</span> to move through controls. All exhibits are keyboard accessible.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="exhibits" id="exhibits">
+      <!-- Exhibit 1: Spacing scale -->
+      <article class="exhibit" aria-labelledby="ex1-title">
+        <div class="hd">
+          <h3 id="ex1-title">Exhibit 1 — Spacing scale</h3>
+          <span class="tag">Layout</span>
+        </div>
+        <div class="bd">
+          <div class="small">Adjust the base spacing unit. The preview updates to show rhythm and density.</div>
+          <div style="height:10px"></div>
+          <div class="row">
+            <label for="space">Base unit</label>
+            <input id="space" type="range" min="4" max="16" step="1" value="8" />
+            <span class="mono" id="spaceVal">8px</span>
+            <button class="btn" id="spaceReset" type="button">Reset</button>
+          </div>
+
+          <div class="canvasWrap" style="padding: 14px;">
+            <div id="spacePreview" style="display:grid; grid-template-columns: 1fr; gap: 12px;">
+              <div style="display:flex; gap: 12px; align-items:center;">
+                <div style="width: 34px; height: 34px; border-radius: 12px; background: rgba(124,92,255,.55); border: 1px solid rgba(255,255,255,.14);"></div>
+                <div>
+                  <div style="font-weight: 650;">Card title</div>
+                  <div class="small">Supporting text that wraps to a second line.</div>
+                </div>
+              </div>
+              <div style="display:flex; gap: 10px; flex-wrap: wrap;">
+                <span class="pill" style="padding: 7px 10px;">Primary</span>
+                <span class="pill" style="padding: 7px 10px;">Secondary</span>
+                <span class="pill" style="padding: 7px 10px;">Tertiary</span>
+              </div>
+              <div style="height: 1px; background: rgba(255,255,255,.12);"></div>
+              <div class="small">Spacing affects readability and scan speed. Aim for consistent rhythm.</div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Exhibit 2: Motion / easing -->
+      <article class="exhibit" aria-labelledby="ex2-title">
+        <div class="hd">
+          <h3 id="ex2-title">Exhibit 2 — Motion</h3>
+          <span class="tag">Animation</span>
+        </div>
+        <div class="bd">
+          <div class="small">Compare easing curves. Click “Play” to animate the dot across the track.</div>
+          <div style="height:10px"></div>
+
+          <div class="row">
+            <label for="ease">Easing</label>
+            <select id="ease" class="btn" style="padding: 8px 10px;">
+              <option value="linear">Linear</option>
+              <option value="easeInOut">Ease in-out</option>
+              <option value="easeOut">Ease out</option>
+              <option value="spring">Spring-ish</option>
+            </select>
+            <button class="btn primary" id="play" type="button">Play</button>
+            <button class="btn" id="motionReduce" type="button" aria-pressed="false">Reduce motion: off</button>
+          </div>
+
+          <div class="canvasWrap" style="padding: 14px;">
+            <div style="position: relative; height: 180px;">
+              <div style="position:absolute; left: 10px; right: 10px; top: 50%; height: 2px; background: rgba(255,255,255,.14);"></div>
+              <div id="dot" style="position:absolute; top: calc(50% - 8px); left: 10px; width: 16px; height: 16px; border-radius: 999px; background: rgba(46,233,166,.95); box-shadow: 0 0 0 6px rgba(46,233,166,.12);"></div>
+              <div style="position:absolute; left: 10px; right: 10px; bottom: 10px; display:flex; justify-content: space-between; color: rgba(255,255,255,.55); font-size: 11px; font-family: var(--mono);">
+                <span>0%</span><span>50%</span><span>100%</span>
+              </div>
+            </div>
+          </div>
+
+          <div style="height:10px"></div>
+          <div class="small mono" id="motionMeta">duration: 700ms · easing: linear</div>
+        </div>
+      </article>
+
+      <!-- Exhibit 3: Contrast checker -->
+      <article class="exhibit" aria-labelledby="ex3-title">
+        <div class="hd">
+          <h3 id="ex3-title">Exhibit 3 — Contrast</h3>
+          <span class="tag">Accessibility</span>
+        </div>
+        <div class="bd">
+          <div class="small">Pick foreground/background colors and see the WCAG contrast ratio.</div>
+          <div style="height:10px"></div>
+
+          <div class="row">
+            <label for="fg">Text</label>
+            <input id="fg" type="color" value="#ffffff" />
+            <label for="bg">Background</label>
+            <input id="bg" type="color" value="#0b1020" />
+            <button class="btn" id="swap" type="button">Swap</button>
+            <button class="btn" id="copy" type="button">Copy CSS</button>
+          </div>
+
+          <div class="canvasWrap" style="padding: 14px;">
+            <div id="sample" style="border-radius: 14px; border: 1px solid rgba(255,255,255,.12); padding: 14px; background: #0b1020; color: #ffffff;">
+              <div style="font-weight: 700;">Sample text</div>
+              <div class="small" style="color: inherit; opacity: .88;">Readable contrast is a feature. Aim for AA at minimum.</div>
+              <div style="height:10px"></div>
+              <div class="mono" id="ratio">Contrast: —</div>
+              <div class="small" id="grade">—</div>
+            </div>
+          </div>
+
+          <div style="height:10px"></div>
+          <div class="small">WCAG: AA normal ≥ 4.5, AA large ≥ 3.0, AAA normal ≥ 7.0</div>
+        </div>
+      </article>
+    </section>
+
+    <footer>
+      Built as a single HTML file for GitHub Pages. No external dependencies.
+    </footer>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    // Toast helper
+    const toastEl = document.getElementById('toast');
+    let toastTimer = null;
+    function toast(msg){
+      toastEl.textContent = msg;
+      toastEl.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toastEl.classList.remove('show'), 1400);
+    }
+
+    // Exhibit 1: spacing scale
+    const space = document.getElementById('space');
+    const spaceVal = document.getElementById('spaceVal');
+    const spaceReset = document.getElementById('spaceReset');
+    const spacePreview = document.getElementById('spacePreview');
+
+    function applySpace(v){
+      const px = Number(v);
+      spaceVal.textContent = px + 'px';
+      spacePreview.style.gap = (px * 1.5) + 'px';
+      // also adjust internal spacing by setting a CSS variable on the preview
+      spacePreview.style.setProperty('--u', px + 'px');
+      // tweak child gaps
+      const firstRow = spacePreview.children[0];
+      if(firstRow) firstRow.style.gap = (px * 1.5) + 'px';
+      const pills = spacePreview.children[1];
+      if(pills) pills.style.gap = (px * 1.25) + 'px';
+    }
+
+    space.addEventListener('input', (e) => applySpace(e.target.value));
+    spaceReset.addEventListener('click', () => { space.value = 8; applySpace(8); toast('Spacing reset to 8px'); });
+    applySpace(space.value);
+
+    // Exhibit 2: motion
+    const easeSel = document.getElementById('ease');
+    const playBtn = document.getElementById('play');
+    const dot = document.getElementById('dot');
+    const motionMeta = document.getElementById('motionMeta');
+    const reduceBtn = document.getElementById('motionReduce');
+
+    let reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    function setReduceMotion(on){
+      reduceMotion = !!on;
+      reduceBtn.setAttribute('aria-pressed', String(reduceMotion));
+      reduceBtn.textContent = 'Reduce motion: ' + (reduceMotion ? 'on' : 'off');
+    }
+    setReduceMotion(reduceMotion);
+
+    reduceBtn.addEventListener('click', () => setReduceMotion(!reduceMotion));
+
+    function easingFn(name){
+      if(name === 'linear') return t => t;
+      if(name === 'easeOut') return t => 1 - Math.pow(1 - t, 3);
+      if(name === 'easeInOut') return t => (t < .5) ? 4*t*t*t : 1 - Math.pow(-2*t + 2, 3)/2;
+      if(name === 'spring'){
+        // A simple damped oscillation mapped to [0,1]
+        return t => {
+          const w = 12.0;
+          const z = 0.22;
+          const e = Math.exp(-z*w*t);
+          const c = Math.cos(w*Math.sqrt(1 - z*z)*t);
+          const s = Math.sin(w*Math.sqrt(1 - z*z)*t);
+          const y = 1 - e*(c + (z/Math.sqrt(1 - z*z))*s);
+          return Math.min(1, Math.max(0, y));
+        };
+      }
+      return t => t;
+    }
+
+    function animateDot(){
+      const easingName = easeSel.value;
+      const duration = reduceMotion ? 1 : 700;
+      motionMeta.textContent = 'duration: ' + (reduceMotion ? '0ms' : duration + 'ms') + ' · easing: ' + easingName;
+
+      const trackLeft = 10;
+      const trackRight = dot.parentElement.clientWidth - 10;
+      const startX = trackLeft;
+      const endX = trackRight - 16; // dot width
+
+      if(reduceMotion){
+        dot.style.left = endX + 'px';
+        setTimeout(() => { dot.style.left = startX + 'px'; }, 250);
+        return;
+      }
+
+      const ease = easingFn(easingName);
+      const t0 = performance.now();
+      function frame(now){
+        const t = Math.min(1, (now - t0) / duration);
+        const x = startX + (endX - startX) * ease(t);
+        dot.style.left = x + 'px';
+        if(t < 1) requestAnimationFrame(frame);
+      }
+      requestAnimationFrame(frame);
+    }
+
+    playBtn.addEventListener('click', animateDot);
+    easeSel.addEventListener('change', () => {
+      motionMeta.textContent = 'duration: ' + (reduceMotion ? '0ms' : '700ms') + ' · easing: ' + easeSel.value;
+    });
+
+    // Exhibit 3: contrast
+    const fg = document.getElementById('fg');
+    const bg = document.getElementById('bg');
+    const sample = document.getElementById('sample');
+    const ratioEl = document.getElementById('ratio');
+    const gradeEl = document.getElementById('grade');
+    const swapBtn = document.getElementById('swap');
+    const copyBtn = document.getElementById('copy');
+
+    function hexToRgb(hex){
+      const h = hex.replace('#','').trim();
+      const full = h.length === 3 ? h.split('').map(c => c+c).join('') : h;
+      const n = parseInt(full, 16);
+      return { r: (n>>16)&255, g: (n>>8)&255, b: n&255 };
+    }
+
+    function srgbToLin(c){
+      const v = c/255;
+      return (v <= 0.04045) ? (v/12.92) : Math.pow((v+0.055)/1.055, 2.4);
+    }
+
+    function relLum({r,g,b}){
+      const R = srgbToLin(r), G = srgbToLin(g), B = srgbToLin(b);
+      return 0.2126*R + 0.7152*G + 0.0722*B;
+    }
+
+    function contrastRatio(fgHex, bgHex){
+      const L1 = relLum(hexToRgb(fgHex));
+      const L2 = relLum(hexToRgb(bgHex));
+      const lighter = Math.max(L1, L2);
+      const darker = Math.min(L1, L2);
+      return (lighter + 0.05) / (darker + 0.05);
+    }
+
+    function grade(r){
+      if(r >= 7) return { label: 'AAA (normal text)', color: 'rgba(46,233,166,.95)' };
+      if(r >= 4.5) return { label: 'AA (normal text)', color: 'rgba(255,204,102,.95)' };
+      if(r >= 3) return { label: 'AA (large text only)', color: 'rgba(255,204,102,.95)' };
+      return { label: 'Fail (increase contrast)', color: 'rgba(255,92,122,.95)' };
+    }
+
+    function updateContrast(){
+      sample.style.color = fg.value;
+      sample.style.background = bg.value;
+      const r = contrastRatio(fg.value, bg.value);
+      ratioEl.textContent = 'Contrast: ' + r.toFixed(2) + ':1';
+      const g = grade(r);
+      gradeEl.textContent = g.label;
+      gradeEl.style.color = g.color;
+    }
+
+    fg.addEventListener('input', updateContrast);
+    bg.addEventListener('input', updateContrast);
+
+    swapBtn.addEventListener('click', () => {
+      const t = fg.value;
+      fg.value = bg.value;
+      bg.value = t;
+      updateContrast();
+      toast('Swapped colors');
+    });
+
+    copyBtn.addEventListener('click', async () => {
+      const css = `color: ${fg.value};\nbackground: ${bg.value};`;
+      try{
+        await navigator.clipboard.writeText(css);
+        toast('Copied CSS to clipboard');
+      }catch(e){
+        // fallback
+        const ta = document.createElement('textarea');
+        ta.value = css;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        ta.remove();
+        toast('Copied CSS');
+      }
+    });
+
+    updateContrast();
+  </script>
+</body>
+</html>
