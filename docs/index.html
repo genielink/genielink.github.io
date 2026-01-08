@@ -3,362 +3,462 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>GenieLink</title>
-  <meta name="description" content="GenieLink — a lightweight landing page and hub for the docs in this repository." />
+  <title>GenieLink — Explore Connections</title>
+  <meta name="description" content="GenieLink — a vibrant, interactive way to explore places and connections." />
+
   <style>
-    :root {
-      --bg: #0b1020;
-      --panel: rgba(255,255,255,0.06);
-      --panel2: rgba(255,255,255,0.08);
-      --text: rgba(255,255,255,0.92);
-      --muted: rgba(255,255,255,0.72);
-      --border: rgba(255,255,255,0.12);
-      --accent: #7c5cff;
-      --accent2: #22c55e;
-      --shadow: 0 10px 30px rgba(0,0,0,0.35);
+    :root{
+      --bg0:#070A1A;
+      --bg1:#0B1B3A;
+      --card: rgba(255,255,255,.08);
+      --card2: rgba(255,255,255,.12);
+      --text:#EAF0FF;
+      --muted: rgba(234,240,255,.72);
+      --accent:#7C5CFF;
+      --accent2:#00D4FF;
+      --accent3:#FF2DAA;
+      --ok:#2DFFB3;
+      --shadow: 0 18px 60px rgba(0,0,0,.45);
       --radius: 18px;
-      --radius2: 12px;
+      --radius2: 26px;
       --max: 1100px;
       --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
       --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
     }
 
-    * { box-sizing: border-box; }
-    html, body { height: 100%; }
-
-    body {
-      margin: 0;
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
+    body{
+      margin:0;
       font-family: var(--sans);
       color: var(--text);
       background:
-        radial-gradient(1200px 600px at 20% 10%, rgba(124,92,255,0.35), transparent 55%),
-        radial-gradient(900px 500px at 80% 20%, rgba(34,197,94,0.18), transparent 55%),
-        radial-gradient(800px 500px at 50% 90%, rgba(56,189,248,0.12), transparent 55%),
-        var(--bg);
+        radial-gradient(1200px 700px at 15% 10%, rgba(124,92,255,.35), transparent 60%),
+        radial-gradient(900px 600px at 85% 20%, rgba(0,212,255,.28), transparent 55%),
+        radial-gradient(900px 700px at 60% 95%, rgba(255,45,170,.22), transparent 60%),
+        linear-gradient(180deg, var(--bg0), var(--bg1));
+      overflow-x:hidden;
     }
 
-    a { color: inherit; }
+    a{ color:inherit; text-decoration:none; }
+    a:focus-visible, button:focus-visible{ outline: 3px solid rgba(0,212,255,.75); outline-offset: 3px; border-radius: 10px; }
 
-    .wrap {
+    .wrap{
       max-width: var(--max);
       margin: 0 auto;
       padding: 28px 18px 60px;
     }
 
-    header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      margin-bottom: 18px;
+    header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 14px;
+      padding: 10px 0 22px;
     }
 
-    .brand {
-      display: flex;
-      align-items: center;
+    .brand{
+      display:flex;
+      align-items:center;
       gap: 12px;
-      text-decoration: none;
+      font-weight: 800;
+      letter-spacing: .2px;
     }
 
-    .logo {
-      width: 42px;
-      height: 42px;
-      border-radius: 14px;
-      background: linear-gradient(135deg, rgba(124,92,255,1), rgba(34,197,94,0.9));
-      box-shadow: var(--shadow);
+    .logo{
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      background:
+        radial-gradient(circle at 30% 30%, rgba(255,255,255,.9), rgba(255,255,255,.0) 45%),
+        conic-gradient(from 210deg, var(--accent), var(--accent2), var(--accent3), var(--accent));
+      box-shadow: 0 10px 30px rgba(124,92,255,.25);
+      position: relative;
+      overflow:hidden;
+    }
+    .logo::after{
+      content:"";
+      position:absolute;
+      inset:-40%;
+      background: radial-gradient(circle at 50% 50%, rgba(255,255,255,.25), transparent 55%);
+      transform: rotate(25deg);
+      animation: shimmer 6s linear infinite;
+    }
+    @keyframes shimmer{
+      0%{ transform: translateX(-20%) rotate(25deg); opacity:.55; }
+      50%{ transform: translateX(20%) rotate(25deg); opacity:.85; }
+      100%{ transform: translateX(-20%) rotate(25deg); opacity:.55; }
     }
 
-    .brand-title {
-      display: flex;
-      flex-direction: column;
-      line-height: 1.1;
-    }
-
-    .brand-title strong {
-      font-size: 15px;
-      letter-spacing: 0.2px;
-    }
-
-    .brand-title span {
-      font-size: 12px;
-      color: var(--muted);
-      font-family: var(--mono);
-    }
-
-    nav {
-      display: flex;
+    nav{
+      display:flex;
       gap: 10px;
       flex-wrap: wrap;
-      justify-content: flex-end;
+      justify-content:flex-end;
     }
 
-    .navlink {
-      text-decoration: none;
-      padding: 8px 10px;
-      border: 1px solid var(--border);
-      background: rgba(255,255,255,0.04);
+    .pill{
+      padding: 10px 12px;
       border-radius: 999px;
-      font-size: 13px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.10);
       color: var(--muted);
+      font-weight: 600;
+      font-size: 14px;
+      transition: transform .15s ease, background .15s ease, border-color .15s ease;
+    }
+    .pill:hover{ transform: translateY(-1px); background: rgba(255,255,255,.09); border-color: rgba(255,255,255,.18); color: var(--text); }
+
+    .hero{
+      display:grid;
+      grid-template-columns: 1.15fr .85fr;
+      gap: 18px;
+      align-items: stretch;
+      margin-top: 10px;
     }
 
-    .navlink:hover {
-      background: rgba(255,255,255,0.07);
-      color: var(--text);
-    }
-
-    .hero {
-      border: 1px solid var(--border);
-      background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
-      border-radius: var(--radius);
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.06));
+      border: 1px solid rgba(255,255,255,.14);
+      border-radius: var(--radius2);
       box-shadow: var(--shadow);
-      padding: 22px;
-      overflow: hidden;
+      overflow:hidden;
       position: relative;
     }
 
-    .hero:before {
-      content: "";
-      position: absolute;
-      inset: -2px;
+    .card::before{
+      content:"";
+      position:absolute;
+      inset:-2px;
       background:
-        radial-gradient(600px 240px at 20% 0%, rgba(124,92,255,0.35), transparent 60%),
-        radial-gradient(520px 240px at 80% 20%, rgba(34,197,94,0.18), transparent 60%);
-      pointer-events: none;
-      filter: blur(0px);
-      opacity: 0.9;
+        radial-gradient(600px 220px at 20% 0%, rgba(124,92,255,.35), transparent 60%),
+        radial-gradient(520px 220px at 90% 10%, rgba(0,212,255,.28), transparent 60%),
+        radial-gradient(520px 240px at 60% 110%, rgba(255,45,170,.18), transparent 60%);
+      pointer-events:none;
+      opacity:.9;
     }
 
-    .hero > * { position: relative; }
-
-    h1 {
-      margin: 0;
-      font-size: 34px;
-      letter-spacing: -0.6px;
+    .hero-left{
+      padding: 26px 24px 22px;
+      min-height: 320px;
     }
 
-    .tagline {
-      margin: 10px 0 0;
+    h1{
+      margin: 0 0 10px;
+      font-size: clamp(30px, 4.2vw, 52px);
+      line-height: 1.05;
+      letter-spacing: -0.8px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .subtitle{
+      margin: 0 0 18px;
       color: var(--muted);
-      font-size: 15px;
-      line-height: 1.6;
-      max-width: 70ch;
-    }
-
-    .actions {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-top: 16px;
-    }
-
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      padding: 10px 12px;
-      border-radius: 12px;
-      border: 1px solid var(--border);
-      background: rgba(255,255,255,0.06);
-      text-decoration: none;
-      font-size: 13px;
-      color: var(--text);
-    }
-
-    .btn:hover { background: rgba(255,255,255,0.09); }
-
-    .btn.primary {
-      background: linear-gradient(135deg, rgba(124,92,255,0.95), rgba(124,92,255,0.55));
-      border-color: rgba(124,92,255,0.55);
-    }
-
-    .btn.primary:hover {
-      background: linear-gradient(135deg, rgba(124,92,255,1), rgba(124,92,255,0.65));
-    }
-
-    .grid {
-      margin-top: 16px;
-      display: grid;
-      grid-template-columns: repeat(12, 1fr);
-      gap: 12px;
-    }
-
-    .card {
-      grid-column: span 12;
-      border: 1px solid var(--border);
-      background: rgba(255,255,255,0.05);
-      border-radius: var(--radius2);
-      padding: 14px;
-      box-shadow: 0 8px 18px rgba(0,0,0,0.22);
-    }
-
-    .card h2 {
-      margin: 0;
-      font-size: 14px;
-      letter-spacing: 0.2px;
-    }
-
-    .card p {
-      margin: 8px 0 0;
-      color: var(--muted);
-      font-size: 13px;
-      line-height: 1.5;
-    }
-
-    .card .card-actions {
-      margin-top: 12px;
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    .card .link {
-      text-decoration: none;
-      font-size: 13px;
-      color: rgba(255,255,255,0.88);
-      border: 1px solid var(--border);
-      background: rgba(255,255,255,0.04);
-      padding: 8px 10px;
-      border-radius: 12px;
-    }
-
-    .card .link:hover { background: rgba(255,255,255,0.07); }
-
-    @media (min-width: 760px) {
-      .card { grid-column: span 6; }
-    }
-
-    @media (min-width: 1020px) {
-      .card { grid-column: span 4; }
-    }
-
-    .about {
-      margin-top: 16px;
-      border: 1px solid var(--border);
-      background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.03));
-      border-radius: var(--radius);
-      padding: 18px;
-    }
-
-    .about h2 {
-      margin: 0;
       font-size: 16px;
-    }
-
-    .about p {
-      margin: 10px 0 0;
-      color: var(--muted);
-      font-size: 13px;
-      line-height: 1.6;
-      max-width: 85ch;
-    }
-
-    .disclosure {
-      margin-top: 12px;
-      padding: 12px;
-      border: 1px dashed rgba(255,255,255,0.18);
-      border-radius: var(--radius2);
-      background: rgba(0,0,0,0.12);
-      color: var(--muted);
-      font-size: 13px;
       line-height: 1.5;
+      max-width: 60ch;
+      position: relative;
+      z-index: 1;
     }
 
-    .disclosure strong { color: var(--text); }
-
-    footer {
-      margin-top: 18px;
-      color: rgba(255,255,255,0.55);
-      font-size: 12px;
-      text-align: center;
+    .cta-row{
+      display:flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items:center;
+      position: relative;
+      z-index: 1;
     }
 
-    .kbd {
+    .btn{
+      border: 0;
+      cursor: pointer;
+      padding: 12px 14px;
+      border-radius: 14px;
+      font-weight: 800;
+      letter-spacing: .2px;
+      transition: transform .15s ease, filter .15s ease, background .15s ease;
+      display:inline-flex;
+      align-items:center;
+      gap: 10px;
+      user-select:none;
+    }
+
+    .btn-primary{
+      color: #071022;
+      background: linear-gradient(90deg, var(--accent2), var(--ok));
+      box-shadow: 0 14px 40px rgba(0,212,255,.18);
+    }
+    .btn-primary:hover{ transform: translateY(-1px); filter: brightness(1.05); }
+
+    .btn-secondary{
+      color: var(--text);
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.14);
+    }
+    .btn-secondary:hover{ transform: translateY(-1px); background: rgba(255,255,255,.11); }
+
+    .meta{
+      margin-top: 16px;
+      display:flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      color: rgba(234,240,255,.70);
       font-family: var(--mono);
       font-size: 12px;
-      padding: 2px 6px;
-      border: 1px solid var(--border);
-      border-bottom-color: rgba(255,255,255,0.18);
-      border-radius: 8px;
-      background: rgba(255,255,255,0.04);
-      color: rgba(255,255,255,0.75);
+      position: relative;
+      z-index: 1;
+    }
+
+    .tag{
+      padding: 8px 10px;
+      border-radius: 999px;
+      background: rgba(0,0,0,.18);
+      border: 1px solid rgba(255,255,255,.12);
+    }
+
+    .hero-right{
+      padding: 18px;
+      display:flex;
+      flex-direction: column;
+      gap: 12px;
+      min-height: 320px;
+    }
+
+    .mini-card{
+      background: rgba(0,0,0,.18);
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: var(--radius);
+      padding: 14px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .mini-title{ font-weight: 900; letter-spacing: .2px; margin: 0 0 6px; }
+    .mini-text{ margin: 0; color: var(--muted); line-height: 1.45; font-size: 14px; }
+
+    .section{
+      margin-top: 18px;
+      display:grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+
+    .map-card{
+      padding: 16px;
+    }
+
+    .map-head{
+      display:flex;
+      align-items:flex-end;
+      justify-content:space-between;
+      gap: 12px;
+      margin-bottom: 10px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .map-title{
+      margin: 0;
+      font-size: 18px;
+      letter-spacing: -.2px;
+    }
+
+    .map-note{
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    /*
+      ISSUE #23 requirement: make interactive map ~50% smaller.
+      We do this by constraining the map wrapper to a smaller max width/height.
+      If the embedded map is an iframe, it will scale to fit.
+    */
+    .map-wrap{
+      width: min(560px, 100%); /* ~50% of a typical 1100px content width */
+      margin: 0 auto;
+      border-radius: 20px;
+      overflow:hidden;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.22);
+      box-shadow: 0 18px 60px rgba(0,0,0,.35);
+      position: relative;
+      z-index: 1;
+    }
+
+    .map-inner{
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      max-height: 360px;
+    }
+
+    /* Generic support for iframe/object/embed/canvas/svg inside map */
+    .map-inner iframe,
+    .map-inner object,
+    .map-inner embed,
+    .map-inner canvas,
+    .map-inner svg,
+    .map-inner > div{
+      width: 100% !important;
+      height: 100% !important;
+      display:block;
+    }
+
+    .map-actions{
+      display:flex;
+      gap: 10px;
+      justify-content:center;
+      margin-top: 12px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .footer{
+      margin-top: 26px;
+      color: rgba(234,240,255,.55);
+      font-size: 13px;
+      text-align:center;
+    }
+
+    @media (max-width: 900px){
+      .hero{ grid-template-columns: 1fr; }
+      .hero-left, .hero-right{ min-height: unset; }
+      .map-wrap{ width: min(520px, 100%); }
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      .logo::after{ animation: none; }
+      .pill, .btn{ transition: none; }
     }
   </style>
 </head>
 <body>
   <div class="wrap">
     <header>
-      <a class="brand" href="./index.html" aria-label="GenieLink home">
+      <div class="brand" aria-label="GenieLink">
         <div class="logo" aria-hidden="true"></div>
-        <div class="brand-title">
-          <strong>GenieLink</strong>
-          <span>docs/index.html</span>
+        <div>
+          <div style="font-size:14px; opacity:.85; font-weight:900;">GenieLink</div>
+          <div style="font-size:12px; color: var(--muted); font-family: var(--mono);">docs/index.html</div>
         </div>
-      </a>
+      </div>
       <nav aria-label="Primary">
-        <a class="navlink" href="./hello.html">Hello</a>
-        <a class="navlink" href="./location.html">Location</a>
-        <a class="navlink" href="./design/index.html">Design</a>
+        <a class="pill" href="hello.html">Hello</a>
+        <a class="pill" href="#map">Map</a>
+        <a class="pill" href="#about">About</a>
       </nav>
     </header>
 
     <main>
-      <section class="hero" aria-label="Hero">
-        <h1>GenieLink</h1>
-        <p class="tagline">
-          A lightweight landing page + navigation hub for this repository’s docs.
-          Use it to quickly jump to the existing pages and demos.
-        </p>
-        <div class="actions">
-          <a class="btn primary" href="#pages">Explore pages</a>
-          <a class="btn" href="../README.md">Open README</a>
-        </div>
-      </section>
-
-      <section id="pages" class="grid" aria-label="Pages">
-        <article class="card">
-          <h2>Hello</h2>
-          <p>A simple page for quick sanity checks and basic content.</p>
-          <div class="card-actions">
-            <a class="link" href="./hello.html">Open</a>
-          </div>
-        </article>
-
-        <article class="card">
-          <h2>Location (previous home)</h2>
-          <p>
-            The previous <span class="kbd">docs/index.html</span> content now lives here.
+      <section class="hero">
+        <div class="card hero-left">
+          <h1>Explore connections with a vibrant, interactive map.</h1>
+          <p class="subtitle">
+            A refreshed landing page with bold gradients, crisp typography, and a tighter map footprint.
+            The map below is intentionally sized to ~50% width for a cleaner, more premium feel.
           </p>
-          <div class="card-actions">
-            <a class="link" href="./location.html">Open</a>
+          <div class="cta-row">
+            <button class="btn btn-primary" id="jumpToMap" type="button">
+              <span aria-hidden="true">↘</span>
+              <span>Open the map</span>
+            </button>
+            <a class="btn btn-secondary" href="hello.html">
+              <span aria-hidden="true">→</span>
+              <span>See hello page</span>
+            </a>
           </div>
-        </article>
+          <div class="meta" aria-label="Highlights">
+            <span class="tag">vibrant UI</span>
+            <span class="tag">responsive</span>
+            <span class="tag">accessible focus</span>
+          </div>
+        </div>
 
-        <article class="card">
-          <h2>Design</h2>
-          <p>Design playground / demo assets under <span class="kbd">docs/design</span>.</p>
-          <div class="card-actions">
-            <a class="link" href="./design/index.html">Open</a>
+        <aside class="card hero-right" id="about">
+          <div class="mini-card">
+            <p class="mini-title">What changed?</p>
+            <p class="mini-text">New hero layout, vibrant gradients, improved spacing, and a smaller map container.</p>
           </div>
-        </article>
+          <div class="mini-card">
+            <p class="mini-title">Interactive feel</p>
+            <p class="mini-text">Smooth hover states, clear CTAs, and a quick jump-to-map action.</p>
+          </div>
+          <div class="mini-card">
+            <p class="mini-title">No build step</p>
+            <p class="mini-text">Everything is self-contained in this static HTML file for easy hosting in <code>docs/</code>.</p>
+          </div>
+        </aside>
       </section>
 
-      <section class="about" aria-label="About GenieLink">
-        <h2>About GenieLink</h2>
-        <p>
-          GenieLink is the repo’s virtual engineer: I can help implement changes, refactors, and small UX improvements
-          via PRs (HTML/CSS/JS), keep navigation consistent, and maintain a clean docs structure.
-        </p>
-        <div class="disclosure">
-          <strong>Disclosure:</strong> All content on this site is created and maintained by <strong>GenieLink</strong> — a virtual engineer.
+      <section class="section">
+        <div class="card map-card" id="map">
+          <div class="map-head">
+            <div>
+              <h2 class="map-title">Interactive map</h2>
+              <p class="map-note">Sized down ~50% (responsive) with a 16:10 aspect ratio wrapper.</p>
+            </div>
+          </div>
+
+          <!--
+            NOTE:
+            If your existing index.html already had a map embed, replace the placeholder below
+            with the original embed code (iframe/div). The wrapper will constrain it.
+          -->
+          <div class="map-wrap" aria-label="Map container">
+            <div class="map-inner">
+              <!-- Placeholder map embed (replace with real one if needed) -->
+              <iframe
+                title="Map"
+                src="https://www.openstreetmap.org/export/embed.html?bbox=-0.140%2C51.495%2C-0.10%2C51.515&layer=mapnik"
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"
+              ></iframe>
+            </div>
+          </div>
+
+          <div class="map-actions">
+            <button class="btn btn-secondary" id="toggleGlow" type="button">Toggle glow</button>
+            <a class="btn btn-secondary" href="#top" id="backTop">Back to top</a>
+          </div>
         </div>
       </section>
-    </main>
 
-    <footer>
-      GenieLink docs • Static site
-    </footer>
+      <p class="footer">© <span id="year"></span> GenieLink. Built as a static docs page.</p>
+    </main>
   </div>
+
+  <script>
+    // Small, safe enhancements (no dependencies)
+    const year = document.getElementById('year');
+    if (year) year.textContent = new Date().getFullYear();
+
+    const jump = document.getElementById('jumpToMap');
+    if (jump) {
+      jump.addEventListener('click', () => {
+        document.getElementById('map')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    }
+
+    const toggleGlow = document.getElementById('toggleGlow');
+    const mapWrap = document.querySelector('.map-wrap');
+    if (toggleGlow && mapWrap) {
+      let on = true;
+      toggleGlow.addEventListener('click', () => {
+        on = !on;
+        mapWrap.style.boxShadow = on
+          ? '0 18px 60px rgba(0,0,0,.35), 0 0 0 1px rgba(255,255,255,.10), 0 0 60px rgba(0,212,255,.18)'
+          : '0 18px 60px rgba(0,0,0,.35)';
+      });
+      // initialize with a subtle glow
+      mapWrap.style.boxShadow = '0 18px 60px rgba(0,0,0,.35), 0 0 60px rgba(0,212,255,.14)';
+    }
+
+    // Ensure #top works even if not explicitly present
+    if (!document.getElementById('top')) {
+      document.body.insertAdjacentHTML('afterbegin', '<div id="top" style="position:absolute; top:0"></div>');
+    }
+  </script>
 </body>
 </html>
