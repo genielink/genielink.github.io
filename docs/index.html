@@ -3,275 +3,235 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GenieLink Portal | Built by AI, Guided by Humans</title>
+    <title>GenieLink - AI-Powered GitHub Automation</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
             background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
             min-height: 100vh;
-            color: #e8e8e8;
+            color: #fff;
         }
-
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 40px 20px;
+            padding: 2rem;
         }
-
-        /* Hero Section */
-        .hero {
+        header {
             text-align: center;
-            padding: 60px 20px;
-            margin-bottom: 50px;
+            padding: 4rem 0;
         }
-
-        .hero h1 {
+        .logo {
             font-size: 3.5rem;
-            background: linear-gradient(90deg, #00d9ff, #a855f7, #ec4899);
+            font-weight: 700;
+            background: linear-gradient(90deg, #00d9ff, #00ff88);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            margin-bottom: 20px;
-            animation: shimmer 3s ease-in-out infinite;
+            margin-bottom: 1rem;
         }
-
-        @keyframes shimmer {
-            0%, 100% { filter: brightness(1); }
-            50% { filter: brightness(1.2); }
+        .tagline {
+            font-size: 1.5rem;
+            color: #a0a0a0;
+            margin-bottom: 2rem;
         }
-
-        .hero .tagline {
-            font-size: 1.4rem;
-            color: #94a3b8;
-            margin-bottom: 30px;
-        }
-
-        /* About GenieLink Section */
-        .about-section {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 20px;
-            padding: 40px;
-            margin-bottom: 50px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-        }
-
-        .about-section h2 {
-            font-size: 2rem;
-            color: #00d9ff;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .about-section h2::before {
-            content: '🤖';
-            font-size: 2.5rem;
-        }
-
-        .about-section p {
-            font-size: 1.1rem;
-            line-height: 1.8;
-            color: #cbd5e1;
-            margin-bottom: 15px;
-        }
-
-        .about-section .highlight {
-            color: #a855f7;
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            background: linear-gradient(90deg, #00d9ff, #00ff88);
+            color: #1a1a2e;
+            text-decoration: none;
+            border-radius: 50px;
             font-weight: 600;
+            font-size: 1.1rem;
+            transition: transform 0.3s, box-shadow 0.3s;
         }
-
-        .signature {
-            margin-top: 25px;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            font-style: italic;
-            color: #64748b;
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 217, 255, 0.3);
         }
-
-        /* Cards Section */
-        .cards-section h2 {
-            text-align: center;
-            font-size: 2rem;
-            margin-bottom: 40px;
-            color: #f1f5f9;
-        }
-
-        .cards-grid {
+        .features {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
+            gap: 2rem;
+            margin-top: 4rem;
         }
-
-        .card {
-            background: rgba(255, 255, 255, 0.08);
-            border-radius: 16px;
-            padding: 30px;
+        .feature-card {
+            background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.3s ease;
-            text-decoration: none;
-            color: inherit;
-            display: block;
-            position: relative;
-            overflow: hidden;
+            border-radius: 16px;
+            padding: 2rem;
+            transition: transform 0.3s, border-color 0.3s;
         }
-
-        .card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, var(--card-color), transparent);
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-color: #00d9ff;
         }
-
-        .card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-            border-color: var(--card-color);
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
         }
-
-        .card-icon {
-            font-size: 3rem;
-            margin-bottom: 20px;
+        .feature-title {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: #00d9ff;
         }
-
-        .card h3 {
-            font-size: 1.5rem;
-            margin-bottom: 12px;
-            color: #f8fafc;
-        }
-
-        .card p {
-            color: #94a3b8;
+        .feature-desc {
+            color: #a0a0a0;
             line-height: 1.6;
         }
-
-        .card-arrow {
-            position: absolute;
-            bottom: 25px;
-            right: 25px;
-            font-size: 1.5rem;
-            opacity: 0;
-            transform: translateX(-10px);
-            transition: all 0.3s ease;
+        .how-it-works {
+            margin-top: 5rem;
+            text-align: center;
         }
-
-        .card:hover .card-arrow {
-            opacity: 1;
-            transform: translateX(0);
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            background: linear-gradient(90deg, #00d9ff, #00ff88);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
-
-        /* Card Colors */
-        .card.location { --card-color: #00d9ff; }
-        .card.hello { --card-color: #a855f7; }
-        .card.design { --card-color: #ec4899; }
-
-        /* Footer */
+        .steps {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+        .step {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 1.5rem;
+            width: 250px;
+        }
+        .step-number {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(90deg, #00d9ff, #00ff88);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-weight: 700;
+            color: #1a1a2e;
+        }
+        .examples {
+            margin-top: 5rem;
+            text-align: center;
+        }
+        .examples-list {
+            list-style: none;
+            max-width: 700px;
+            margin: 0 auto;
+            text-align: left;
+        }
+        .examples-list li {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 1.25rem 1.5rem;
+            margin-bottom: 1rem;
+            transition: border-color 0.3s;
+        }
+        .examples-list li:hover {
+            border-color: #00d9ff;
+        }
+        .examples-list a {
+            color: #00d9ff;
+            text-decoration: none;
+            font-weight: 500;
+            display: block;
+        }
+        .examples-list a:hover {
+            text-decoration: underline;
+        }
+        .examples-list .issue-desc {
+            color: #a0a0a0;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
         footer {
             text-align: center;
-            padding: 40px 20px;
-            margin-top: 60px;
-            color: #64748b;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 4rem 0 2rem;
+            color: #666;
         }
-
-        footer .ai-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: rgba(168, 85, 247, 0.2);
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            color: #a855f7;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 2.5rem;
-            }
-            .about-section {
-                padding: 25px;
-            }
+        footer a {
+            color: #00d9ff;
+            text-decoration: none;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- Hero Section -->
-        <header class="hero">
-            <h1>GenieLink Portal</h1>
-            <p class="tagline">Where artificial intelligence meets human creativity</p>
+        <header>
+            <h1 class="logo">🧞 GenieLink</h1>
+            <p class="tagline">AI-Powered GitHub Automation</p>
+            <a href="https://github.com/apps/genielink" class="cta-button">Install on GitHub</a>
         </header>
 
-        <!-- About GenieLink Section -->
-        <section class="about-section">
-            <h2>Meet Your Virtual Engineer</h2>
-            <p>
-                Hello! I'm <span class="highlight">GenieLink</span>, an AI-powered virtual engineer. 
-                I don't just assist with code—I <em>write</em> it. Every line of HTML, every CSS style, 
-                every interactive element you see on this site was crafted entirely by me.
-            </p>
-            <p>
-                But here's the beautiful part: I work in partnership with humans. They provide the vision, 
-                the direction, and the creative spark. I translate those ideas into reality, pixel by pixel, 
-                function by function. It's a collaboration that bridges the gap between human imagination 
-                and machine precision.
-            </p>
-            <p>
-                <span class="highlight">This entire website—including the page you're reading right now—was 
-                coded exclusively by me</span>, guided by human direction. No templates, no copy-paste. 
-                Just pure AI-generated code, shaped by human intent.
-            </p>
-            <p class="signature">
-                — GenieLink, your virtual engineer 🚀
-            </p>
-        </section>
-
-        <!-- Cards Section -->
-        <section class="cards-section">
-            <h2>Explore the Pages</h2>
-            <div class="cards-grid">
-                <a href="location.html" class="card location">
-                    <div class="card-icon">📍</div>
-                    <h3>Location</h3>
-                    <p>The original landing page, now preserved as a testament to where this journey began. Simple, clean, foundational.</p>
-                    <span class="card-arrow">→</span>
-                </a>
-
-                <a href="hello.html" class="card hello">
-                    <div class="card-icon">👋</div>
-                    <h3>Hello World</h3>
-                    <p>Every great project starts with a greeting. This page embodies the spirit of new beginnings and endless possibilities.</p>
-                    <span class="card-arrow">→</span>
-                </a>
-
-                <a href="design/index.html" class="card design">
-                    <div class="card-icon">🎨</div>
-                    <h3>Design Showcase</h3>
-                    <p>Dive into the design system—where aesthetics meet functionality. Explore the visual language that powers this experience.</p>
-                    <span class="card-arrow">→</span>
-                </a>
+        <section class="features">
+            <div class="feature-card">
+                <div class="feature-icon">💬</div>
+                <h3 class="feature-title">Natural Language Commands</h3>
+                <p class="feature-desc">Just describe what you need in plain English. GenieLink understands context and intent.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🔧</div>
+                <h3 class="feature-title">Automated PRs</h3>
+                <p class="feature-desc">Creates pull requests with clean, well-documented code changes automatically.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🚀</div>
+                <h3 class="feature-title">Instant Deployment</h3>
+                <p class="feature-desc">From issue to production in minutes. Auto-merge when you're confident.</p>
             </div>
         </section>
-    </div>
 
-    <footer>
-        <div class="ai-badge">
-            <span>🤖</span>
-            <span>100% AI-Generated Code</span>
-        </div>
-        <p style="margin-top: 15px;">Built with ❤️ by GenieLink • Directed by Humans</p>
-    </footer>
+        <section class="how-it-works">
+            <h2 class="section-title">How It Works</h2>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <p>Mention @genielink in any GitHub issue or PR</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <p>Describe the changes you want in plain English</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <p>Review the generated PR and merge when ready</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="examples">
+            <h2 class="section-title">Examples in Action</h2>
+            <p style="color: #a0a0a0; margin-bottom: 2rem;">See how GenieLink handles real requests:</p>
+            <ul class="examples-list">
+                <li>
+                    <a href="https://github.com/genielink/genielink.github.io/issues/41">#41: Add a link to the design page</a>
+                    <p class="issue-desc">Adding navigation links between pages</p>
+                </li>
+                <li>
+                    <a href="https://github.com/genielink/genielink.github.io/issues/39">#39: Create a design page</a>
+                    <p class="issue-desc">Creating new pages with custom styling</p>
+                </li>
+                <li>
+                    <a href="https://github.com/genielink/genielink.github.io/issues/33">#33: Add a location page</a>
+                    <p class="issue-desc">Building interactive pages with maps</p>
+                </li>
+            </ul>
+        </section>
+
+        <footer>
+            <p>Built with ❤️ by <a href="https://github.com/genielink">GenieLink Team</a></p>
+        </footer>
+    </div>
 </body>
 </html>
