@@ -1,0 +1,416 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Design Lab — a tiny sub‑website</title>
+  <meta name="description" content="A small interactive sub‑website about design: principles, typography, spacing, color, and accessibility." />
+  <link rel="stylesheet" href="./assets/design.css" />
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="brand">
+        <div class="logo" aria-hidden="true">DL</div>
+        <div>
+          <div class="brand-title">Design Lab</div>
+          <div class="brand-subtitle">A tiny, practical guide with interactive exhibits</div>
+        </div>
+      </div>
+
+      <nav class="nav" aria-label="Primary">
+        <a href="#principles">Principles</a>
+        <a href="#typography">Typography</a>
+        <a href="#spacing">Spacing</a>
+        <a href="#color">Color</a>
+        <a href="#accessibility">Accessibility</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" class="container">
+    <section class="hero">
+      <div class="hero-copy">
+        <h1>Design is decisions.</h1>
+        <p>
+          This mini site is a hands-on refresher on core design ideas—layout, typography, color, and accessibility.
+          Each section includes a small interactive exhibit you can tweak to see the effect immediately.
+        </p>
+        <div class="hero-actions">
+          <a class="btn" href="#principles">Start with principles</a>
+          <a class="btn btn-ghost" href="#accessibility">Jump to accessibility</a>
+        </div>
+        <p class="fineprint">
+          Tip: Use <kbd>Tab</kbd> to navigate controls. Everything here is client-side and self-contained.
+        </p>
+      </div>
+
+      <aside class="hero-card" aria-label="Design checklist">
+        <h2 class="h3">A quick checklist</h2>
+        <ul class="checklist">
+          <li><strong>Purpose:</strong> What job is this UI doing?</li>
+          <li><strong>Hierarchy:</strong> What should be noticed first?</li>
+          <li><strong>Consistency:</strong> Are patterns reused?</li>
+          <li><strong>Feedback:</strong> Do actions have clear results?</li>
+          <li><strong>Accessibility:</strong> Can everyone use it?</li>
+        </ul>
+        <div class="callout">
+          <strong>Rule of thumb:</strong> If you can’t explain a visual choice, it’s probably decoration.
+        </div>
+      </aside>
+    </section>
+
+    <section id="principles" class="section">
+      <div class="section-head">
+        <h2>1) Principles (with a live layout demo)</h2>
+        <p>
+          Most “good design” is a combination of a few repeatable principles. Here are four that show up everywhere:
+          <strong>hierarchy</strong>, <strong>alignment</strong>, <strong>contrast</strong>, and <strong>proximity</strong>.
+        </p>
+      </div>
+
+      <div class="grid two">
+        <article class="card">
+          <h3>Principles in plain language</h3>
+          <dl class="defs">
+            <dt>Hierarchy</dt>
+            <dd>Make the important thing look important (size, weight, position, color).</dd>
+            <dt>Alignment</dt>
+            <dd>Line things up so the page feels intentional and scannable.</dd>
+            <dt>Contrast</dt>
+            <dd>Create difference to guide attention (light/dark, big/small, bold/regular).</dd>
+            <dt>Proximity</dt>
+            <dd>Group related items; separate unrelated ones.</dd>
+          </dl>
+          <p class="muted">
+            These principles are not “style.” They’re tools for clarity.
+          </p>
+        </article>
+
+        <article class="card">
+          <h3>Exhibit: tune hierarchy & proximity</h3>
+          <p class="muted">Adjust the controls and watch the card update.</p>
+
+          <div class="controls" role="group" aria-label="Layout controls">
+            <label>
+              Title size
+              <input id="ctlTitleSize" type="range" min="18" max="44" value="30" />
+              <span class="value" id="valTitleSize">30px</span>
+            </label>
+            <label>
+              Body size
+              <input id="ctlBodySize" type="range" min="12" max="22" value="16" />
+              <span class="value" id="valBodySize">16px</span>
+            </label>
+            <label>
+              Spacing
+              <input id="ctlSpacing" type="range" min="6" max="28" value="14" />
+              <span class="value" id="valSpacing">14px</span>
+            </label>
+            <label>
+              Emphasis
+              <select id="ctlEmphasis">
+                <option value="subtle">Subtle</option>
+                <option value="balanced" selected>Balanced</option>
+                <option value="loud">Loud</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="demo" id="demoCard" aria-live="polite">
+            <div class="demo-badge" id="demoBadge">New</div>
+            <h4 id="demoTitle">Design update: clearer navigation</h4>
+            <p id="demoBody">
+              We grouped related links, increased contrast for active states, and reduced visual noise.
+              The result: faster scanning and fewer misclicks.
+            </p>
+            <div class="demo-actions">
+              <button class="btn btn-small" type="button">View changes</button>
+              <button class="btn btn-ghost btn-small" type="button">Dismiss</button>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="typography" class="section">
+      <div class="section-head">
+        <h2>2) Typography (readability you can measure)</h2>
+        <p>
+          Typography is user experience. A few practical levers: <strong>line length</strong>, <strong>line height</strong>,
+          <strong>font size</strong>, and <strong>contrast</strong>.
+        </p>
+      </div>
+
+      <div class="grid two">
+        <article class="card">
+          <h3>Exhibit: readability playground</h3>
+          <div class="controls" role="group" aria-label="Typography controls">
+            <label>
+              Font size
+              <input id="ctlFontSize" type="range" min="14" max="22" value="16" />
+              <span class="value" id="valFontSize">16px</span>
+            </label>
+            <label>
+              Line height
+              <input id="ctlLineHeight" type="range" min="1.2" max="2.0" step="0.05" value="1.55" />
+              <span class="value" id="valLineHeight">1.55</span>
+            </label>
+            <label>
+              Measure (line length)
+              <input id="ctlMeasure" type="range" min="38" max="90" value="66" />
+              <span class="value" id="valMeasure">66ch</span>
+            </label>
+            <label>
+              Paragraph style
+              <select id="ctlParagraph">
+                <option value="plain" selected>Plain</option>
+                <option value="comfortable">Comfortable</option>
+                <option value="compact">Compact</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="type-demo" id="typeDemo">
+            <p>
+              Good typography disappears. It helps people understand without calling attention to itself.
+              Aim for ~45–75 characters per line for body text, and use line height to reduce crowding.
+            </p>
+            <p>
+              If users must work to read, they’ll leave. If they can skim, they’ll stay.
+            </p>
+          </div>
+
+          <div class="metrics" aria-label="Readability metrics">
+            <div class="metric"><span class="k">Estimated line length</span><span class="v" id="metricLine">66ch</span></div>
+            <div class="metric"><span class="k">Recommendation</span><span class="v" id="metricRec">Within 45–75ch</span></div>
+          </div>
+        </article>
+
+        <article class="card">
+          <h3>Practical typography rules</h3>
+          <ul class="bullets">
+            <li><strong>Use fewer sizes:</strong> 3–5 text sizes is often enough.</li>
+            <li><strong>Prefer real hierarchy:</strong> size + weight + spacing beats color alone.</li>
+            <li><strong>Don’t over-tighten:</strong> cramped line height hurts scanning.</li>
+            <li><strong>Use consistent rhythm:</strong> align to a spacing scale.</li>
+            <li><strong>Test on small screens:</strong> that’s where typography breaks first.</li>
+          </ul>
+          <div class="callout">
+            <strong>Design trick:</strong> If a page feels “off,” try increasing line height and spacing before changing fonts.
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="spacing" class="section">
+      <div class="section-head">
+        <h2>3) Spacing (a scale makes everything calmer)</h2>
+        <p>
+          Spacing is the invisible structure. A simple scale (like 4, 8, 12, 16, 24, 32…) creates consistency.
+          This exhibit generates a spacing scale and previews it.
+        </p>
+      </div>
+
+      <div class="grid two">
+        <article class="card">
+          <h3>Exhibit: spacing scale generator</h3>
+          <div class="controls" role="group" aria-label="Spacing controls">
+            <label>
+              Base unit
+              <input id="ctlBase" type="range" min="2" max="12" value="4" />
+              <span class="value" id="valBase">4px</span>
+            </label>
+            <label>
+              Ratio
+              <input id="ctlRatio" type="range" min="1.1" max="2.0" step="0.05" value="1.5" />
+              <span class="value" id="valRatio">1.50×</span>
+            </label>
+            <label>
+              Steps
+              <input id="ctlSteps" type="range" min="6" max="12" value="9" />
+              <span class="value" id="valSteps">9</span>
+            </label>
+          </div>
+
+          <div class="scale" id="scaleList" aria-label="Generated spacing scale"></div>
+          <p class="muted">Use the scale for padding, gaps, and margins to keep rhythm consistent.</p>
+        </article>
+
+        <article class="card">
+          <h3>Why scales work</h3>
+          <p>
+            Without a scale, spacing becomes arbitrary: 13px here, 19px there. Users feel the inconsistency even if
+            they can’t name it.
+          </p>
+          <ul class="bullets">
+            <li><strong>Fewer decisions:</strong> pick from a small set.</li>
+            <li><strong>More consistency:</strong> repeated patterns feel “designed.”</li>
+            <li><strong>Better collaboration:</strong> teams share a common language.</li>
+          </ul>
+          <div class="callout">
+            <strong>Tip:</strong> Use smaller steps for dense UIs (dashboards) and larger steps for marketing pages.
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="color" class="section">
+      <div class="section-head">
+        <h2>4) Color (meaning, not decoration)</h2>
+        <p>
+          Color should communicate state and hierarchy. This section includes a palette builder and a contrast checker.
+        </p>
+      </div>
+
+      <div class="grid two">
+        <article class="card">
+          <h3>Exhibit: palette builder</h3>
+          <p class="muted">Pick a brand color; we’ll generate tints/shades and show usage suggestions.</p>
+
+          <div class="controls" role="group" aria-label="Palette controls">
+            <label>
+              Brand color
+              <input id="ctlBrand" type="color" value="#4f46e5" />
+              <span class="value" id="valBrand">#4f46e5</span>
+            </label>
+            <label>
+              Steps
+              <input id="ctlPaletteSteps" type="range" min="5" max="11" value="9" />
+              <span class="value" id="valPaletteSteps">9</span>
+            </label>
+            <label>
+              Mode
+              <select id="ctlPaletteMode">
+                <option value="tints" selected>Tints → white</option>
+                <option value="shades">Shades → black</option>
+                <option value="both">Both</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="palette" id="palette" aria-label="Generated palette"></div>
+          <div class="callout">
+            <strong>Usage:</strong> Use the strongest color for primary actions; lighter steps for backgrounds and hovers.
+          </div>
+        </article>
+
+        <article class="card" id="accessibility">
+          <h3>Exhibit: contrast checker (WCAG)</h3>
+          <p class="muted">Choose text and background colors to see contrast ratio and pass/fail.</p>
+
+          <div class="controls" role="group" aria-label="Contrast controls">
+            <label>
+              Text
+              <input id="ctlText" type="color" value="#0b1020" />
+              <span class="value" id="valText">#0b1020</span>
+            </label>
+            <label>
+              Background
+              <input id="ctlBg" type="color" value="#ffffff" />
+              <span class="value" id="valBg">#ffffff</span>
+            </label>
+            <label>
+              Font weight
+              <select id="ctlWeight">
+                <option value="normal" selected>Normal</option>
+                <option value="bold">Bold</option>
+              </select>
+            </label>
+            <label>
+              Font size
+              <select id="ctlSize">
+                <option value="small" selected>Small (body)</option>
+                <option value="large">Large (≥ 18pt / 24px)</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="contrast-preview" id="contrastPreview">
+            <div class="contrast-sample" id="contrastSample">
+              <div class="sample-title">Preview</div>
+              <div class="sample-text">Design is how it works. — Steve Jobs</div>
+              <div class="sample-sub">Try changing colors to meet accessibility targets.</div>
+            </div>
+
+            <div class="contrast-results" aria-label="Contrast results">
+              <div class="result">
+                <div class="result-k">Contrast ratio</div>
+                <div class="result-v" id="contrastRatio">—</div>
+              </div>
+              <div class="result">
+                <div class="result-k">WCAG AA</div>
+                <div class="result-v" id="contrastAA">—</div>
+              </div>
+              <div class="result">
+                <div class="result-k">WCAG AAA</div>
+                <div class="result-v" id="contrastAAA">—</div>
+              </div>
+              <div class="muted" id="contrastHint"></div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <h2>5) Interaction design (microcopy + feedback)</h2>
+        <p>
+          Interaction design is about reducing uncertainty. Users should always know: what happened, what’s happening,
+          and what happens next.
+        </p>
+      </div>
+
+      <div class="grid two">
+        <article class="card">
+          <h3>Exhibit: microcopy improver</h3>
+          <p class="muted">Paste a UI message; we’ll suggest improvements based on clarity patterns.</p>
+
+          <label class="stack">
+            UI message
+            <textarea id="microInput" rows="4" placeholder="e.g., Error occurred.">Your changes could not be saved.</textarea>
+          </label>
+
+          <div class="controls inline">
+            <button class="btn" type="button" id="microAnalyze">Suggest improvements</button>
+            <button class="btn btn-ghost" type="button" id="microReset">Reset</button>
+          </div>
+
+          <div class="micro-out" id="microOut" aria-live="polite"></div>
+        </article>
+
+        <article class="card">
+          <h3>Patterns that reduce confusion</h3>
+          <ul class="bullets">
+            <li><strong>Be specific:</strong> “Payment failed” beats “Something went wrong.”</li>
+            <li><strong>Explain impact:</strong> what did/didn’t happen?</li>
+            <li><strong>Offer next steps:</strong> retry, contact support, check input.</li>
+            <li><strong>Use human language:</strong> avoid internal codes and jargon.</li>
+            <li><strong>Show progress:</strong> loading states prevent repeated clicks.</li>
+          </ul>
+          <div class="callout">
+            <strong>Microcopy formula:</strong> What happened + why (if helpful) + what to do next.
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        <div>
+          <strong>Design Lab</strong> — built as a small sub‑website under <code>/design</code>.
+        </div>
+        <div class="footer-links">
+          <a href="../index.html">Back to main site</a>
+          <a href="#main">Top</a>
+        </div>
+      </div>
+    </footer>
+  </main>
+
+  <script src="./assets/design.js"></script>
+</body>
+</html>
