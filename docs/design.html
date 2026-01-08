@@ -1,0 +1,788 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>GenieLink — Design</title>
+  <meta name="description" content="GenieLink design principles, system overview, and interactive exhibits." />
+  <style>
+    :root{
+      --bg: #0b1020;
+      --panel: rgba(255,255,255,.06);
+      --panel2: rgba(255,255,255,.09);
+      --text: rgba(255,255,255,.92);
+      --muted: rgba(255,255,255,.72);
+      --faint: rgba(255,255,255,.55);
+      --border: rgba(255,255,255,.14);
+      --accent: #7c5cff;
+      --accent2: #2ee9a6;
+      --warn: #ffcc66;
+      --danger: #ff5c7a;
+      --shadow: 0 18px 60px rgba(0,0,0,.45);
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      --radius: 14px;
+    }
+
+    *{ box-sizing: border-box; }
+    html, body{ height: 100%; }
+    body{
+      margin: 0;
+      font-family: var(--sans);
+      color: var(--text);
+      background:
+        radial-gradient(1200px 800px at 15% 10%, rgba(124,92,255,.35), transparent 55%),
+        radial-gradient(900px 700px at 85% 20%, rgba(46,233,166,.22), transparent 55%),
+        radial-gradient(900px 700px at 50% 90%, rgba(255,92,122,.12), transparent 60%),
+        linear-gradient(180deg, #070a14, var(--bg));
+      overflow-x: hidden;
+    }
+
+    a{ color: inherit; text-decoration: none; }
+    a:hover{ text-decoration: underline; }
+
+    .wrap{ max-width: 1100px; margin: 0 auto; padding: 28px 18px 80px; }
+
+    header{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 14px 16px;
+      border: 1px solid var(--border);
+      background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04));
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      position: sticky;
+      top: 14px;
+      backdrop-filter: blur(10px);
+      z-index: 10;
+    }
+
+    .brand{
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 220px;
+    }
+
+    .logo{
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      background:
+        radial-gradient(circle at 30% 30%, rgba(255,255,255,.35), transparent 55%),
+        linear-gradient(135deg, var(--accent), var(--accent2));
+      box-shadow: 0 10px 30px rgba(124,92,255,.25);
+      border: 1px solid rgba(255,255,255,.18);
+    }
+
+    .brand h1{
+      font-size: 14px;
+      margin: 0;
+      letter-spacing: .2px;
+      line-height: 1.1;
+    }
+
+    .brand .sub{
+      display: block;
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 2px;
+      font-weight: 500;
+    }
+
+    nav{
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .pill{
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.05);
+      color: var(--muted);
+      font-size: 13px;
+      text-decoration: none;
+      user-select: none;
+    }
+
+    .pill:hover{ background: rgba(255,255,255,.08); color: var(--text); text-decoration: none; }
+    .pill.active{ background: rgba(124,92,255,.18); border-color: rgba(124,92,255,.35); color: var(--text); }
+
+    .hero{
+      margin-top: 22px;
+      padding: 26px 18px;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      background: linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.03));
+      box-shadow: var(--shadow);
+    }
+
+    .hero h2{ margin: 0 0 10px; font-size: 26px; letter-spacing: .2px; }
+    .hero p{ margin: 0; color: var(--muted); max-width: 78ch; line-height: 1.55; }
+
+    .grid{
+      display: grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 16px;
+      margin-top: 16px;
+    }
+
+    @media (max-width: 920px){
+      .grid{ grid-template-columns: 1fr; }
+      header{ position: static; }
+      .brand{ min-width: unset; }
+    }
+
+    .card{
+      border: 1px solid var(--border);
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .card .hd{
+      padding: 14px 16px;
+      border-bottom: 1px solid rgba(255,255,255,.10);
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .card .hd h3{ margin: 0; font-size: 15px; letter-spacing: .2px; }
+    .card .hd .hint{ color: var(--faint); font-size: 12px; }
+    .card .bd{ padding: 14px 16px 16px; }
+
+    .kvs{ display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    @media (max-width: 520px){ .kvs{ grid-template-columns: 1fr; } }
+
+    .kv{
+      padding: 12px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.18);
+    }
+    .kv .k{ font-size: 12px; color: var(--faint); }
+    .kv .v{ margin-top: 6px; font-size: 13px; color: var(--text); line-height: 1.45; }
+
+    .section{ margin-top: 16px; }
+
+    .tabs{
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+
+    button.tab{
+      appearance: none;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.05);
+      color: var(--muted);
+      padding: 8px 10px;
+      border-radius: 999px;
+      font-size: 13px;
+      cursor: pointer;
+    }
+
+    button.tab[aria-selected="true"]{
+      background: rgba(46,233,166,.14);
+      border-color: rgba(46,233,166,.35);
+      color: var(--text);
+    }
+
+    .panel{
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.18);
+      border-radius: 12px;
+      padding: 12px;
+    }
+
+    .panel p{ margin: 0; color: var(--muted); line-height: 1.55; }
+
+    .code{
+      margin-top: 10px;
+      font-family: var(--mono);
+      font-size: 12px;
+      line-height: 1.5;
+      color: rgba(255,255,255,.86);
+      background: rgba(0,0,0,.35);
+      border: 1px solid rgba(255,255,255,.10);
+      border-radius: 12px;
+      padding: 12px;
+      overflow: auto;
+      white-space: pre;
+    }
+
+    .row{ display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+
+    .btn{
+      appearance: none;
+      border: 1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.06);
+      color: var(--text);
+      padding: 9px 11px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: 13px;
+    }
+    .btn:hover{ background: rgba(255,255,255,.09); }
+
+    .btn.primary{
+      border-color: rgba(124,92,255,.35);
+      background: rgba(124,92,255,.18);
+    }
+
+    .btn.danger{
+      border-color: rgba(255,92,122,.35);
+      background: rgba(255,92,122,.14);
+    }
+
+    input[type="text"], input[type="number"], select{
+      width: 100%;
+      padding: 10px 10px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.22);
+      color: var(--text);
+      outline: none;
+      font-size: 13px;
+    }
+
+    label{ font-size: 12px; color: var(--faint); display: block; margin-bottom: 6px; }
+
+    .form{
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    @media (max-width: 720px){ .form{ grid-template-columns: 1fr; } }
+
+    .mini{
+      font-size: 12px;
+      color: var(--faint);
+      line-height: 1.45;
+    }
+
+    .badge{
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.05);
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .ok{ border-color: rgba(46,233,166,.35); background: rgba(46,233,166,.12); color: rgba(255,255,255,.9); }
+    .warn{ border-color: rgba(255,204,102,.35); background: rgba(255,204,102,.12); color: rgba(255,255,255,.9); }
+    .bad{ border-color: rgba(255,92,122,.35); background: rgba(255,92,122,.12); color: rgba(255,255,255,.9); }
+
+    footer{
+      margin-top: 18px;
+      color: var(--faint);
+      font-size: 12px;
+      text-align: center;
+    }
+
+    .sr-only{
+      position:absolute;
+      width:1px;
+      height:1px;
+      padding:0;
+      margin:-1px;
+      overflow:hidden;
+      clip:rect(0,0,0,0);
+      white-space:nowrap;
+      border:0;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <div class="logo" aria-hidden="true"></div>
+        <div>
+          <h1>GenieLink <span class="sub">Design / System notes</span></h1>
+        </div>
+      </div>
+      <nav aria-label="Primary">
+        <a class="pill" href="index.html">Home</a>
+        <a class="pill" href="hello.html">Hello</a>
+        <a class="pill active" href="design.html" aria-current="page">Design</a>
+        <a class="pill" href="#exhibits">Exhibits</a>
+      </nav>
+    </header>
+
+    <section class="hero">
+      <h2>/design</h2>
+      <p>
+        This page is a lightweight, static “sub-website” that documents GenieLink’s product design goals and
+        includes a few interactive exhibits (no build step, no dependencies). It’s meant to be readable,
+        copyable, and easy to evolve.
+      </p>
+    </section>
+
+    <div class="grid">
+      <section class="card" aria-labelledby="principles">
+        <div class="hd">
+          <h3 id="principles">Design principles</h3>
+          <span class="hint">What we optimize for</span>
+        </div>
+        <div class="bd">
+          <div class="kvs">
+            <div class="kv">
+              <div class="k">Clarity over cleverness</div>
+              <div class="v">Prefer explicit states, predictable navigation, and copy that explains “what happens next”.</div>
+            </div>
+            <div class="kv">
+              <div class="k">Fast feedback loops</div>
+              <div class="v">Every action should produce immediate UI feedback; long work should show progress.</div>
+            </div>
+            <div class="kv">
+              <div class="k">Safe by default</div>
+              <div class="v">Guardrails for destructive actions; validate inputs; make failure modes legible.</div>
+            </div>
+            <div class="kv">
+              <div class="k">Composable primitives</div>
+              <div class="v">Build features from small reusable parts (links, cards, badges, panels, flows).</div>
+            </div>
+          </div>
+
+          <div class="section">
+            <div class="panel">
+              <p>
+                The exhibits below are intentionally simple: they demonstrate interaction patterns and
+                decision logic that can later be ported into the app.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <aside class="card" aria-labelledby="overview">
+        <div class="hd">
+          <h3 id="overview">System overview</h3>
+          <span class="hint">Mental model</span>
+        </div>
+        <div class="bd">
+          <div class="kv">
+            <div class="k">Core loop</div>
+            <div class="v">User intent → validate → execute → summarize → next best action.</div>
+          </div>
+          <div class="kv" style="margin-top:10px;">
+            <div class="k">Key UI states</div>
+            <div class="v">
+              <span class="badge ok">Ready</span>
+              <span class="badge warn">Needs input</span>
+              <span class="badge">Working</span>
+              <span class="badge bad">Blocked</span>
+            </div>
+          </div>
+          <div class="kv" style="margin-top:10px;">
+            <div class="k">Non-goals (for this page)</div>
+            <div class="v">No frameworks, no routing, no external assets. Everything is in one HTML file.</div>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <section id="exhibits" class="card" style="margin-top:16px;" aria-labelledby="exhibits-title">
+      <div class="hd">
+        <h3 id="exhibits-title">Interactive exhibits</h3>
+        <span class="hint">Patterns you can reuse</span>
+      </div>
+      <div class="bd">
+        <div class="tabs" role="tablist" aria-label="Exhibits">
+          <button class="tab" role="tab" id="tab-flow" aria-controls="panel-flow" aria-selected="true">1) Flow builder</button>
+          <button class="tab" role="tab" id="tab-copy" aria-controls="panel-copy" aria-selected="false">2) Microcopy lint</button>
+          <button class="tab" role="tab" id="tab-risk" aria-controls="panel-risk" aria-selected="false">3) Risk gates</button>
+        </div>
+
+        <div id="panel-flow" class="panel" role="tabpanel" aria-labelledby="tab-flow">
+          <div class="form" style="margin-bottom:10px;">
+            <div>
+              <label for="intent">User intent</label>
+              <input id="intent" type="text" placeholder="e.g. Connect my GitHub account" />
+            </div>
+            <div>
+              <label for="latency">Expected latency (ms)</label>
+              <input id="latency" type="number" min="0" step="50" value="650" />
+            </div>
+            <div>
+              <label for="risk">Action risk</label>
+              <select id="risk">
+                <option value="low">Low (read-only)</option>
+                <option value="medium">Medium (writes)</option>
+                <option value="high">High (destructive)</option>
+              </select>
+            </div>
+            <div>
+              <label for="confidence">System confidence</label>
+              <select id="confidence">
+                <option value="high">High</option>
+                <option value="medium">Medium</option>
+                <option value="low">Low</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="row">
+            <button class="btn primary" id="build">Build recommended UI flow</button>
+            <button class="btn" id="example">Load example</button>
+            <button class="btn danger" id="reset">Reset</button>
+            <span class="mini" id="flowStatus" aria-live="polite"></span>
+          </div>
+
+          <div class="code" id="flowOut" aria-label="Generated flow"></div>
+        </div>
+
+        <div id="panel-copy" class="panel" role="tabpanel" aria-labelledby="tab-copy" hidden>
+          <p>
+            Paste UI text and get quick heuristics: avoid vague CTAs, prefer active voice, and ensure the user
+            understands consequences.
+          </p>
+          <div style="margin-top:10px;" class="form">
+            <div style="grid-column: 1 / -1;">
+              <label for="copyIn">Microcopy</label>
+              <input id="copyIn" type="text" placeholder="e.g. Click here to proceed" />
+              <div class="mini" style="margin-top:8px;">Tip: try “Click here”, “Proceed”, “Submit”, “Are you sure?”</div>
+            </div>
+          </div>
+          <div class="row" style="margin-top:10px;">
+            <button class="btn primary" id="lint">Lint</button>
+            <button class="btn" id="copyExample">Load example</button>
+          </div>
+          <div class="code" id="copyOut" aria-label="Lint results"></div>
+        </div>
+
+        <div id="panel-risk" class="panel" role="tabpanel" aria-labelledby="tab-risk" hidden>
+          <p>
+            A tiny “policy engine” that decides whether to require confirmation, show a preview, or block an action.
+          </p>
+          <div class="form" style="margin-top:10px;">
+            <div>
+              <label for="rAction">Action</label>
+              <input id="rAction" type="text" placeholder="e.g. Delete workspace" />
+            </div>
+            <div>
+              <label for="rScope">Scope</label>
+              <select id="rScope">
+                <option value="self">Only me</option>
+                <option value="team">Team</option>
+                <option value="org">Org-wide</option>
+              </select>
+            </div>
+            <div>
+              <label for="rReversible">Reversible?</label>
+              <select id="rReversible">
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+              </select>
+            </div>
+            <div>
+              <label for="rData">Data sensitivity</label>
+              <select id="rData">
+                <option value="low">Low</option>
+                <option value="medium">Medium</option>
+                <option value="high">High</option>
+              </select>
+            </div>
+          </div>
+          <div class="row" style="margin-top:10px;">
+            <button class="btn primary" id="evaluate">Evaluate gates</button>
+            <button class="btn" id="riskExample">Load example</button>
+          </div>
+          <div class="code" id="riskOut" aria-label="Gate evaluation"></div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div>GenieLink docs • <a href="index.html">Back to Home</a></div>
+    </footer>
+  </div>
+
+  <script>
+    // Tabs
+    const tabs = Array.from(document.querySelectorAll('button.tab'));
+    const panels = {
+      'tab-flow': document.getElementById('panel-flow'),
+      'tab-copy': document.getElementById('panel-copy'),
+      'tab-risk': document.getElementById('panel-risk')
+    };
+
+    function selectTab(id){
+      for (const t of tabs){
+        const selected = t.id === id;
+        t.setAttribute('aria-selected', selected ? 'true' : 'false');
+        const p = panels[t.id];
+        if (p) p.hidden = !selected;
+      }
+    }
+
+    tabs.forEach(t => t.addEventListener('click', () => selectTab(t.id)));
+
+    // Exhibit 1: Flow builder
+    const elIntent = document.getElementById('intent');
+    const elLatency = document.getElementById('latency');
+    const elRisk = document.getElementById('risk');
+    const elConfidence = document.getElementById('confidence');
+    const elFlowOut = document.getElementById('flowOut');
+    const elFlowStatus = document.getElementById('flowStatus');
+
+    function recommendFlow({ intent, latencyMs, risk, confidence }){
+      const steps = [];
+      const notes = [];
+
+      const needsInput = !intent || intent.trim().length < 6;
+      if (needsInput){
+        steps.push({ state: 'Needs input', ui: 'Ask a clarifying question', detail: 'What exactly should be connected / changed?' });
+        notes.push('Intent is too short; ask for specifics before executing.');
+      }
+
+      // Pre-flight validation
+      steps.push({ state: 'Ready', ui: 'Validate inputs', detail: 'Check auth, required fields, and permissions.' });
+
+      // Risk gates
+      if (risk === 'high'){
+        steps.push({ state: 'Needs input', ui: 'Require typed confirmation', detail: 'User must type a keyword to proceed.' });
+        steps.push({ state: 'Needs input', ui: 'Show preview / impact summary', detail: 'List what will be deleted/changed.' });
+        notes.push('High-risk actions should be hard to do accidentally.');
+      } else if (risk === 'medium'){
+        steps.push({ state: 'Needs input', ui: 'Confirm action', detail: 'Simple confirm modal with consequences.' });
+      } else {
+        steps.push({ state: 'Ready', ui: 'Proceed without confirmation', detail: 'Still allow undo when possible.' });
+      }
+
+      // Confidence
+      if (confidence === 'low'){
+        steps.push({ state: 'Needs input', ui: 'Offer safe alternatives', detail: 'Ask user to choose from options or provide more context.' });
+        notes.push('Low confidence: avoid irreversible automation; prefer user choice.');
+      }
+
+      // Execution
+      const showProgress = latencyMs >= 400;
+      steps.push({ state: 'Working', ui: showProgress ? 'Show progress indicator' : 'Inline spinner', detail: showProgress ? 'Progress bar + status text.' : 'Keep it subtle.' });
+      steps.push({ state: 'Working', ui: 'Execute action', detail: 'Perform the operation; handle retries/timeouts.' });
+
+      // Result
+      steps.push({ state: 'Ready', ui: 'Summarize outcome', detail: 'What changed, where to find it, and next best action.' });
+
+      return { steps, notes };
+    }
+
+    function renderFlow(flow){
+      const lines = [];
+      lines.push('Recommended UI flow');
+      lines.push('-------------------');
+      flow.steps.forEach((s, i) => {
+        lines.push(`${String(i+1).padStart(2,'0')}. [${s.state}] ${s.ui}`);
+        lines.push(`    - ${s.detail}`);
+      });
+      if (flow.notes.length){
+        lines.push('');
+        lines.push('Notes');
+        lines.push('-----');
+        flow.notes.forEach(n => lines.push(`- ${n}`));
+      }
+      return lines.join('\n');
+    }
+
+    function buildFlow(){
+      const intent = elIntent.value;
+      const latencyMs = Number(elLatency.value || 0);
+      const risk = elRisk.value;
+      const confidence = elConfidence.value;
+
+      const flow = recommendFlow({ intent, latencyMs, risk, confidence });
+      elFlowOut.textContent = renderFlow(flow);
+
+      const statusBits = [];
+      statusBits.push(risk === 'high' ? 'High-risk' : risk === 'medium' ? 'Medium-risk' : 'Low-risk');
+      statusBits.push(confidence === 'low' ? 'Low confidence' : confidence === 'medium' ? 'Medium confidence' : 'High confidence');
+      statusBits.push(latencyMs >= 400 ? 'Show progress' : 'Fast path');
+      elFlowStatus.textContent = statusBits.join(' • ');
+    }
+
+    document.getElementById('build').addEventListener('click', buildFlow);
+    document.getElementById('example').addEventListener('click', () => {
+      elIntent.value = 'Connect my GitHub account to GenieLink';
+      elLatency.value = 900;
+      elRisk.value = 'medium';
+      elConfidence.value = 'high';
+      buildFlow();
+    });
+    document.getElementById('reset').addEventListener('click', () => {
+      elIntent.value = '';
+      elLatency.value = 650;
+      elRisk.value = 'low';
+      elConfidence.value = 'high';
+      elFlowOut.textContent = '';
+      elFlowStatus.textContent = '';
+    });
+
+    // Exhibit 2: Microcopy lint
+    const elCopyIn = document.getElementById('copyIn');
+    const elCopyOut = document.getElementById('copyOut');
+
+    function lintCopy(text){
+      const t = (text || '').trim();
+      const findings = [];
+
+      if (!t){
+        findings.push({ level: 'warn', msg: 'No text provided.' });
+        return findings;
+      }
+
+      const lower = t.toLowerCase();
+      const vague = ['click here', 'proceed', 'continue', 'submit', 'ok', 'okay', 'yes', 'no'];
+      if (vague.some(v => lower === v || lower.includes(v))){
+        findings.push({ level: 'warn', msg: 'CTA may be vague. Prefer describing the outcome (e.g. “Connect GitHub”, “Delete workspace”).' });
+      }
+
+      if (lower.includes('are you sure') && !/(delete|remove|disconnect|revoke|cancel|disable)/.test(lower)){
+        findings.push({ level: 'warn', msg: '“Are you sure?” without stating consequences. Add what will happen if confirmed.' });
+      }
+
+      if (t.length < 6){
+        findings.push({ level: 'warn', msg: 'Very short label. Ensure it is unambiguous.' });
+      }
+
+      if (/(error|failed|failure)/i.test(t) && !/(try again|retry|contact|support|details)/i.test(t)){
+        findings.push({ level: 'warn', msg: 'Error copy should include a next step (retry, details, or support path).' });
+      }
+
+      if (/(forever|permanently|irreversible)/i.test(t)){
+        findings.push({ level: 'ok', msg: 'Good: irreversible language is explicit.' });
+      }
+
+      if (!findings.length){
+        findings.push({ level: 'ok', msg: 'Looks reasonable. Consider adding specifics (object + outcome) if this is a CTA.' });
+      }
+
+      return findings;
+    }
+
+    function renderFindings(findings){
+      const lines = [];
+      lines.push('Microcopy lint');
+      lines.push('-------------');
+      for (const f of findings){
+        const tag = f.level === 'ok' ? 'OK' : f.level === 'bad' ? 'BAD' : 'WARN';
+        lines.push(`[${tag}] ${f.msg}`);
+      }
+      return lines.join('\n');
+    }
+
+    document.getElementById('lint').addEventListener('click', () => {
+      elCopyOut.textContent = renderFindings(lintCopy(elCopyIn.value));
+    });
+    document.getElementById('copyExample').addEventListener('click', () => {
+      elCopyIn.value = 'Click here to proceed';
+      elCopyOut.textContent = renderFindings(lintCopy(elCopyIn.value));
+    });
+
+    // Exhibit 3: Risk gates
+    const elRAction = document.getElementById('rAction');
+    const elRScope = document.getElementById('rScope');
+    const elRReversible = document.getElementById('rReversible');
+    const elRData = document.getElementById('rData');
+    const elRiskOut = document.getElementById('riskOut');
+
+    function evaluateGates({ action, scope, reversible, data }){
+      const gates = [];
+      const a = (action || '').trim();
+
+      if (!a){
+        gates.push({ level: 'warn', gate: 'Missing action', detail: 'Provide an action name to evaluate.' });
+        return gates;
+      }
+
+      const destructive = /(delete|remove|revoke|disconnect|wipe|drop)/i.test(a);
+      const orgWide = scope === 'org';
+      const teamWide = scope === 'team';
+      const irreversible = reversible === 'no';
+      const sensitive = data === 'high';
+
+      // Base requirements
+      gates.push({ level: 'ok', gate: 'Permission check', detail: 'Verify role/ownership before enabling the action.' });
+
+      if (destructive || irreversible){
+        gates.push({ level: 'warn', gate: 'Confirmation', detail: 'Require explicit confirmation with consequences.' });
+      }
+
+      if (destructive && irreversible){
+        gates.push({ level: 'bad', gate: 'Typed confirmation', detail: 'Require typing a keyword or resource name.' });
+      }
+
+      if (teamWide || orgWide){
+        gates.push({ level: 'warn', gate: 'Impact preview', detail: 'Show affected users/resources and allow export.' });
+      }
+
+      if (orgWide && sensitive){
+        gates.push({ level: 'bad', gate: 'Secondary approval', detail: 'Require admin approval or 2-person rule.' });
+      }
+
+      if (!irreversible){
+        gates.push({ level: 'ok', gate: 'Undo path', detail: 'Offer undo or restore window where possible.' });
+      }
+
+      return gates;
+    }
+
+    function renderGates(gates){
+      const lines = [];
+      lines.push('Gate evaluation');
+      lines.push('--------------');
+      for (const g of gates){
+        const tag = g.level === 'ok' ? 'OK' : g.level === 'bad' ? 'BLOCK' : 'REQUIRE';
+        lines.push(`[${tag}] ${g.gate}`);
+        lines.push(`    - ${g.detail}`);
+      }
+      return lines.join('\n');
+    }
+
+    document.getElementById('evaluate').addEventListener('click', () => {
+      const gates = evaluateGates({
+        action: elRAction.value,
+        scope: elRScope.value,
+        reversible: elRReversible.value,
+        data: elRData.value
+      });
+      elRiskOut.textContent = renderGates(gates);
+    });
+
+    document.getElementById('riskExample').addEventListener('click', () => {
+      elRAction.value = 'Delete workspace';
+      elRScope.value = 'org';
+      elRReversible.value = 'no';
+      elRData.value = 'high';
+      const gates = evaluateGates({
+        action: elRAction.value,
+        scope: elRScope.value,
+        reversible: elRReversible.value,
+        data: elRData.value
+      });
+      elRiskOut.textContent = renderGates(gates);
+    });
+
+    // Initialize with a small default so the page doesn't look empty.
+    elIntent.value = 'Design a safe connect flow';
+    buildFlow();
+  </script>
+</body>
+</html>
