@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Breath Guide</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="breath-container">
+        <div class="circle"></div>
+    </div>
+    <div class="controls">
+        <label for="inhale">Inhale (seconds):</label>
+        <input type="number" id="inhale" value="4" min="1">
+
+        <label for="hold">Hold (seconds):</label>
+        <input type="number" id="hold" value="4" min="0">
+
+        <label for="exhale">Exhale (seconds):</label>
+        <input type="number" id="exhale" value="4" min="1">
+
+        <button onclick="startBreathing()">Start</button>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
