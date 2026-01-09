@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pranayama</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background-color: #f4f4f9;
+        }
+        .container {
+            max-width: 600px;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            text-align: center;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin-top: 20px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            background-color: #007BFF;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to Pranayama</h1>
+        <p>Track your progress as you practice Pranayama breathing exercises.</p>
+        <button onclick="trackProgress()">Track Progress</button>
+        <p id="progress"></p>
+    </div>
+
+    <script>
+        function trackProgress() {
+            let progress = localStorage.getItem('pranayamaProgress') || 0;
+            progress++;
+            localStorage.setItem('pranayamaProgress', progress);
+            document.getElementById('progress').innerText = `You have practiced ${progress} times.`;
+        }
+
+        document.addEventListener('DOMContentLoaded', (event) => {
+            let progress = localStorage.getItem('pranayamaProgress') || 0;
+            document.getElementById('progress').innerText = `You have practiced ${progress} times.`;
+        });
+    </script>
+</body>
+</html>
